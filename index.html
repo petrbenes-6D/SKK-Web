@@ -308,6 +308,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(160deg, rgba(26,26,46,0.38) 0%, rgba(26,26,46,0.52) 100%);
+      pointer-events: none;
     }
 
     /* Znaky vpravo nahoře v hero – SVG znak klubu + fotografie erbu obce */
@@ -1598,6 +1599,10 @@
       color: rgba(255,255,255,0.55);
       transition: color 0.2s;
       word-break: break-all;
+      position: relative;
+      z-index: 100;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     .member-email:hover { color: var(--gold); }
@@ -1628,6 +1633,7 @@
       height: 100%;
       background: url('tretry.JPG') center / cover no-repeat;
       opacity: 0.15;
+      pointer-events: none;
     }
 
     .kontakt-grid {
@@ -1660,6 +1666,13 @@
       font-size: 1.1rem;
       color: var(--white);
       transition: color 0.2s;
+    }
+
+    .kontakt-info-block a {
+      position: relative;
+      z-index: 100;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     .kontakt-info-block a:hover { color: var(--gold); }
