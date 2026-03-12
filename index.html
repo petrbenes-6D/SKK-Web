@@ -2109,22 +2109,22 @@
           <form id="fourpmForm" novalidate>
             <div class="form-row">
               <div class="form-group">
-                <label for="fp-jmeno">Jméno *</label>
-                <input type="text" id="fp-jmeno" name="jmeno" required placeholder="Vaše jméno" />
+                <label for="jmeno">Jméno *</label>
+                <input type="text" id="jmeno" name="jmeno" required placeholder="Vaše jméno" />
               </div>
               <div class="form-group">
-                <label for="fp-datum">Datum běhu *</label>
-                <input type="text" id="fp-datum" name="datum" required placeholder="DD.MM.RRRR" />
+                <label for="datum">Datum běhu *</label>
+                <input type="text" id="datum" name="datum" required placeholder="DD.MM.RRRR" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="fp-cas">Čas *</label>
-                <input type="text" id="fp-cas" name="cas" required placeholder="např. 1:45:30" />
+                <label for="cas">Čas *</label>
+                <input type="text" id="cas" name="cas" required placeholder="např. 1:45:30" />
               </div>
               <div class="form-group">
-                <label for="fp-poznamka">Poznámka</label>
-                <textarea id="fp-poznamka" name="poznamka" placeholder="Jak se vám trasa líbila?"></textarea>
+                <label for="poznamka">Poznámka</label>
+                <textarea id="poznamka" name="poznamka" placeholder="Jak se vám trasa líbila?"></textarea>
               </div>
             </div>
             <button type="submit" class="btn btn-gold" style="margin-top:4px;">Odeslat</button>
@@ -3226,50 +3226,34 @@
     const fourpmRefresh = document.getElementById('fourpmRefresh');
 
     // --- Odeslání formuláře ---
-    fourpmForm.addEventListener('submit', async (e) => {
+    fourpmForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = {
-        jmeno:    fourpmForm.jmeno.value.trim(),
-        datum:    fourpmForm.datum.value,
-        cas:      fourpmForm.cas.value.trim(),
-        poznamka: fourpmForm.poznamka.value.trim()
-      };
 
-      if (!data.jmeno || !data.datum || !data.cas) {
+      if (!document.getElementById('jmeno').value || !document.getElementById('datum').value || !document.getElementById('cas').value) {
         fourpmStatus.textContent = 'Vyplňte prosím povinná pole.';
         fourpmStatus.className   = 'form-status err';
         return;
       }
 
-      const submitBtn = fourpmForm.querySelector('button[type="submit"]');
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Odesílám…';
-      fourpmStatus.textContent = '';
-      fourpmStatus.className   = 'form-status';
-
-      try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            jmeno:    data.jmeno,
-            datum:    data.datum,
-            cas:      data.cas,
-            poznamka: data.poznamka
-          })
-        });
-        fourpmStatus.textContent = '✅ Díky! Tvůj čas byl uložen.';
-        fourpmStatus.className   = 'form-status ok';
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          jmeno:    document.getElementById('jmeno').value,
+          datum:    document.getElementById('datum').value,
+          cas:      document.getElementById('cas').value,
+          poznamka: document.getElementById('poznamka').value
+        })
+      })
+      .then(() => {
+        alert('✅ Díky! Tvůj čas byl uložen.');
         fourpmForm.reset();
         setTimeout(loadResults, 1500);
-      } catch {
-        fourpmStatus.textContent = '❌ Něco se pokazilo, zkus to znovu.';
-        fourpmStatus.className   = 'form-status err';
-      } finally {
-        submitBtn.disabled    = false;
-        submitBtn.textContent = 'Odeslat';
-      }
+      })
+      .catch(() => {
+        alert('❌ Něco se pokazilo, zkus to znovu.');
+      });
     });
 
     // --- Načítání výsledků ---
