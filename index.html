@@ -1,0 +1,3369 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKK Čtyřkoly – Sport, Komunita, Zábava</title>
+  <meta name="description" content="SKK Čtyřkoly – sportovně-kulturní klub z obce Čtyřkoly. Cyklistika, lyže, běh, triatlon, plesy, Silvestra. Přijď si zajet!" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #2B7EC1;
+      --gold:       #F5C400;
+      --green-l:    #4A9B3C;
+      --green-d:    #4A7C4E;
+      --white:      #FFFFFF;
+      --dark:       #1a1a2e;
+      --dark-soft:  #2c2c44;
+      --grey-light: #f4f6f9;
+      --grey-mid:   #dde3ea;
+      --text-main:  #2a2a3a;
+      --text-muted: #6b7280;
+      --font-head:  'Oswald', sans-serif;
+      --font-body:  'Open Sans', sans-serif;
+      --radius:     10px;
+      --shadow:     0 4px 24px rgba(0,0,0,0.12);
+      --transition: 0.3s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-main);
+      background: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; text-decoration: none; }
+
+    h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* =============================================
+       UTILITY CLASSES
+    ============================================= */
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .section-title span { color: var(--blue); }
+
+    .section-lead {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    .btn-gold:hover {
+      background: transparent;
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--white);
+      color: var(--white);
+    }
+
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--dark);
+    }
+
+    /* Fade-in animations via IntersectionObserver */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in-right.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0 24px;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    #navbar.scrolled {
+      background: rgba(26, 26, 46, 0.97);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 2px;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.85);
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 90px;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 46, 0.98);
+      z-index: 999;
+      padding: 20px 0 28px;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.9);
+      padding: 12px 40px;
+      width: 100%;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .mobile-menu a:hover { color: var(--gold); background: rgba(255,255,255,0.05); }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('zada.JPG') center center / cover no-repeat;
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+
+    #hero:hover .hero-bg { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(26,26,46,0.38) 0%, rgba(26,26,46,0.52) 100%);
+    }
+
+    /* Znaky vpravo nahoře v hero – SVG znak klubu + fotografie erbu obce */
+    .hero-crest {
+      position: absolute;
+      top: 86px;
+      right: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .hero-crest svg {
+      height: 80px;
+      width: auto;
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.6));
+    }
+
+    /* mix-blend-mode: multiply – bílé okraje štítu zmizí do tmavého pozadí */
+    .hero-crest .erb-obce {
+      height: 80px;
+      width: auto;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeDown 0.9s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 10vw, 7.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 6px;
+      line-height: 1;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeDown 0.9s 0.5s forwards;
+    }
+
+    .hero-title span { color: var(--gold); }
+
+    .hero-claim {
+      font-family: var(--font-body);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: rgba(255,255,255,0.92);
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeDown 0.9s 0.7s forwards;
+    }
+
+    .hero-cta {
+      opacity: 0;
+      animation: fadeDown 0.9s 0.9s forwards;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounce 2s infinite;
+    }
+
+    .hero-scroll svg { fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* =============================================
+       O NÁS
+    ============================================= */
+    #onas {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .onas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .onas-img-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .onas-img-wrap img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .onas-img-wrap:hover img { transform: scale(1.03); }
+
+    .onas-img-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: var(--gold);
+      color: var(--dark);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 50px;
+    }
+
+    .onas-text p { color: var(--text-muted); margin-bottom: 16px; font-size: 1.02rem; }
+
+    .hymna-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-soft) 100%);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 16px 22px;
+      margin: 28px 0 36px;
+      font-size: 0.95rem;
+    }
+
+    .hymna-bar .hymna-icon { font-size: 1.6rem; flex-shrink: 0; }
+
+    .hymna-bar a { color: var(--gold); font-weight: 600; text-decoration: underline dotted; }
+
+    /* Video přehrávač hymny v sekci O nás */
+    .hymna-video-wrap {
+      margin-top: 36px;
+      margin-bottom: 32px;
+    }
+
+    .hymna-video-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .hymna-video-label span:first-child { font-size: 1.4rem; }
+
+    .hymna-video-label strong {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      color: var(--dark);
+      letter-spacing: 1px;
+    }
+
+    .hymna-video-label em {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: normal;
+      margin-left: 4px;
+    }
+
+    .hymna-video-wrap video {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.18);
+      display: block;
+      background: var(--dark);
+    }
+
+    .features-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .feature-box {
+      background: var(--grey-light);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+      cursor: default;
+    }
+
+    .feature-box:hover {
+      border-bottom-color: var(--blue);
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+    }
+
+    .feature-box .feat-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .feature-box h3 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 8px; color: var(--dark); }
+    .feature-box p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* =============================================
+       AKCE
+    ============================================= */
+    #akce {
+      padding: 100px 0;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .akce-bg-img {
+      position: absolute;
+      inset: 0;
+      background: url('depo.jpg') center 60% / cover no-repeat;
+      opacity: 0.08;
+    }
+
+    #akce .section-label { color: var(--gold); }
+    #akce .section-title { color: var(--white); }
+    #akce .section-lead { color: rgba(255,255,255,0.65); }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .event-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: var(--transition);
+    }
+
+    .event-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .event-icon { font-size: 2rem; margin-bottom: 14px; }
+    .event-date {
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .event-name {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .event-desc { font-size: 0.9rem; color: rgba(255,255,255,0.65); }
+
+    /* Papírák 2026 – hlavní karta */
+    .papírak-section {
+      background: linear-gradient(135deg, #2B7EC1 0%, #3a8a50 60%, #4A9B3C 100%);
+      border-radius: 20px;
+      padding: 0;
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(43,126,193,0.35);
+    }
+
+    /* Dekorativní kruhy v pozadí */
+    .papírak-section::before,
+    .papírak-section::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    .papírak-section::before { width: 320px; height: 320px; top: -80px; right: -80px; }
+    .papírak-section::after  { width: 200px; height: 200px; bottom: -60px; left: -60px; }
+
+    /* Vnitřní layout: plakát vlevo, obsah vpravo */
+    .papírak-inner {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .papírak-poster {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px 0 0 20px;
+      flex-shrink: 0;
+      background: #1a1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .papírak-poster img {
+      width: 100%;
+      max-height: 600px;
+      object-fit: contain;
+      display: block;
+      /* plakát se nezoomuje – aby byl vždy celý vidět */
+    }
+
+    /* zrušen zoom-efekt na plakátu (contain nesnáší scale) */
+    .papírak-section:hover .papírak-poster img { transform: none; }
+
+    .papírak-body {
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .papírak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--dark);
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+
+    .papírak-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: var(--white);
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+
+    .papírak-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 6px;
+    }
+
+    .papírak-date {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+
+    .papírak-organizers {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 20px;
+    }
+
+    .papírak-organizers strong { color: rgba(255,255,255,0.85); }
+
+    /* Countdown */
+    .papírak-countdown {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-unit {
+      background: rgba(0,0,0,0.25);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+      min-width: 68px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .countdown-num {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      color: var(--white);
+      line-height: 1;
+      display: block;
+    }
+
+    .countdown-lbl {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .countdown-done {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      color: var(--gold);
+      padding: 12px 0;
+    }
+
+    /* Disciplíny */
+    .papírak-disciplines {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .papírak-discipline {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50px;
+      padding: 7px 14px;
+      font-size: 0.9rem;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .papírak-discipline span:first-child { font-size: 1.1rem; }
+
+    /* Harmonogram + info */
+    .papírak-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .papírak-meta-block {
+      background: rgba(0,0,0,0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .papírak-meta-block h5 {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .papírak-meta-block p,
+    .papírak-meta-block li {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.6;
+    }
+
+    .papírak-meta-block ul { padding-left: 0; list-style: none; }
+    .papírak-meta-block li::before { content: '→ '; color: var(--gold); }
+
+    /* Výsledky */
+    .results-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .result-pos {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      color: var(--gold);
+      min-width: 36px;
+    }
+
+    .result-name { color: var(--white); font-size: 0.95rem; flex: 1; }
+    .result-time { color: rgba(255,255,255,0.6); font-size: 0.9rem; font-style: italic; }
+
+    @media (max-width: 900px) {
+      .papírak-inner { grid-template-columns: 1fr; }
+      .papírak-poster { border-radius: 20px 20px 0 0; min-height: 260px; }
+      .papírak-body { padding: 28px 24px; }
+      .papírak-meta { grid-template-columns: 1fr; }
+    }
+
+    /* 4PM block */
+    .fourpm-block {
+      background: rgba(245,196,0,0.08);
+      border: 1px solid rgba(245,196,0,0.25);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .fourpm-icon { font-size: 3.5rem; flex-shrink: 0; }
+
+    .fourpm-text h3 {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .fourpm-text p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
+
+    /* 4PM karta se formulářem a výsledkovou listinou */
+    .fourpm-card {
+      background: linear-gradient(135deg, rgba(245,196,0,0.1) 0%, rgba(245,196,0,0.03) 100%);
+      border: 1px solid rgba(245,196,0,0.35);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 60px;
+    }
+
+    .fourpm-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .fourpm-card-header .fourpm-icon { font-size: 3rem; flex-shrink: 0; margin-top: 4px; }
+
+    .fourpm-card-header h3 {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .fourpm-card-header p { color: rgba(255,255,255,0.75); font-size: 0.97rem; line-height: 1.65; }
+
+    .btn-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 12px 26px;
+      border-radius: 50px;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+
+    .btn-map:hover { background: #e6b800; transform: translateY(-2px); }
+
+    /* Formulář sdílení času */
+    .fourpm-form-block {
+      border-top: 1px solid rgba(245,196,0,0.2);
+      padding-top: 32px;
+      margin-top: 32px;
+    }
+
+    .fourpm-form-block h4 {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      color: var(--white);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-group label {
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-head);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    /* Zarovnání input[type=date] v dark tématu */
+    .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+      cursor: pointer;
+    }
+
+    .form-status {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      min-height: 22px;
+    }
+
+    .form-status.ok  { color: var(--green-l); }
+    .form-status.err { color: #f87171; }
+
+    /* Výsledková listina */
+    .results-board {
+      border-top: 1px solid rgba(245,196,0,0.2);
+      padding-top: 32px;
+      margin-top: 36px;
+    }
+
+    .results-board-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .results-board-head h4 {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+
+    .btn-refresh {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.6);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-family: var(--font-head);
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-refresh:hover { border-color: var(--gold); color: var(--gold); }
+
+    .results-table-wrap { overflow-x: auto; }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .results-table thead th {
+      text-align: left;
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .results-table tbody tr {
+      transition: background 0.15s;
+    }
+
+    .results-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+    .results-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.8);
+      vertical-align: middle;
+    }
+
+    .results-table td:first-child {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      color: var(--gold);
+      width: 48px;
+    }
+
+    .results-table td.col-time {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .results-loading {
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      padding: 24px 0;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .fourpm-card { padding: 24px 20px; }
+      .fourpm-card-header { flex-direction: column; gap: 12px; }
+    }
+
+    /* Archive */
+    .archive-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .archive-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .archive-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .archive-item .arc-date {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 6px;
+      font-family: var(--font-head);
+      letter-spacing: 1px;
+    }
+
+    .archive-item .arc-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* =============================================
+       GALERIE
+    ============================================= */
+    #galerie {
+      padding: 100px 0;
+      background: var(--grey-light);
+    }
+
+    .galerie-hero {
+      position: relative;
+      height: 300px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 50px;
+    }
+
+    .galerie-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .galerie-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(26,26,46,0.7) 0%, transparent 60%);
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+    }
+
+    .galerie-hero-text { color: var(--white); }
+    .galerie-hero-text h2 { font-family: var(--font-head); font-size: 2.8rem; margin-bottom: 6px; }
+    .galerie-hero-text p { font-size: 1rem; color: rgba(255,255,255,0.8); }
+
+    /* Filter buttons */
+    .gallery-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .filter-btn {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 2px solid var(--grey-mid);
+      background: var(--white);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    /* Gallery grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 1;
+      background: var(--grey-mid);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26,26,46,0.4);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 2rem;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-item.hidden { display: none; }
+
+    /* =============================================
+       LIGHTBOX
+    ============================================= */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.94);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lightbox.open { display: flex; }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 4px;
+      object-fit: contain;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.7);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-size: 2.4rem;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      line-height: 1;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: var(--white); }
+
+    .lightbox-prev, .lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: var(--white);
+      font-size: 2rem;
+      padding: 18px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.22); }
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    /* =============================================
+       BLOG
+    ============================================= */
+    #blog {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .blog-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
+
+    .blog-card:hover {
+      box-shadow: 0 8px 36px rgba(0,0,0,0.14);
+      transform: translateY(-5px);
+    }
+
+    .blog-img {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .blog-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover .blog-img img { transform: scale(1.06); }
+
+    .blog-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 50px;
+    }
+
+    .blog-body { padding: 24px; }
+
+    .blog-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .blog-body h3 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .blog-body p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+
+    .blog-more {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: var(--blue);
+      font-weight: 600;
+      transition: gap 0.2s;
+    }
+
+    .blog-more:hover { text-decoration: underline; }
+
+    /* Článek – featured (plná šířka, rozhovor) */
+    .blog-card.blog-featured {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .blog-card.blog-featured .blog-img {
+      height: 380px;
+    }
+
+    .blog-card.blog-featured .blog-body {
+      padding: 32px 36px 36px;
+    }
+
+    .blog-card.blog-featured h3 {
+      font-size: 1.75rem;
+      margin-bottom: 14px;
+    }
+
+    .blog-perex {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 2px solid var(--grey-mid);
+    }
+
+    /* Blockquote – citáty závodníka */
+    .blog-quote {
+      border-left: 4px solid var(--gold);
+      background: #fffbea;
+      margin: 0 0 20px 0;
+      padding: 16px 22px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .blog-quote p {
+      font-size: 1rem;
+      color: var(--text-main) !important;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 0 !important;
+    }
+
+    .blog-quote-label {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .btn-article {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 50px;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      transition: var(--transition);
+    }
+
+    .btn-article:hover {
+      background: #1f6aaa;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .blog-card.blog-featured .blog-img  { height: 220px; }
+      .blog-card.blog-featured .blog-body { padding: 22px 18px 28px; }
+      .blog-card.blog-featured h3         { font-size: 1.35rem; }
+    }
+
+    /* Výsledkové boxy v článku */
+    .result-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .result-box {
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+    }
+
+    .result-box.gold   { background: #fffbea; border: 2px solid #F5C400; }
+    .result-box.silver { background: #f5f7fa; border: 2px solid #a0aab4; }
+    .result-box.bronze { background: #fff5f0; border: 2px solid #cd7f32; }
+
+    .result-box .rb-medal { font-size: 2rem; margin-bottom: 8px; }
+
+    .result-box .rb-name {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .result-box .rb-time {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    .result-box .rb-detail {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .result-boxes { grid-template-columns: 1fr; }
+    }
+
+    /* Trek statistiky */
+    .trek-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .trek-stat {
+      background: linear-gradient(135deg, var(--blue) 0%, #1f6aaa 100%);
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(43,126,193,0.25);
+    }
+
+    .trek-stat .ts-icon { font-size: 1.6rem; margin-bottom: 6px; }
+
+    .trek-stat .ts-value {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .trek-stat .ts-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.5px;
+    }
+
+    /* Dvě fotky vedle sebe */
+    .blog-photo-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .blog-photo-pair img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 600px) {
+      .trek-stats { grid-template-columns: repeat(2, 1fr); }
+      .blog-photo-pair { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       MEMBER CARDS
+    ============================================= */
+    .member-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .member-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .member-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .member-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 16px;
+      display: block;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .member-name {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .member-role {
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-head);
+      margin-bottom: 14px;
+    }
+
+    .member-email {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+      word-break: break-all;
+    }
+
+    .member-email:hover { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .member-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .member-cards { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       KONTAKT
+    ============================================= */
+    #kontakt {
+      padding: 100px 0 0;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kontakt-shoe-bg {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: url('tretry.JPG') center / cover no-repeat;
+      opacity: 0.15;
+    }
+
+    .kontakt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #kontakt .section-label { color: var(--gold); }
+    #kontakt .section-title { color: var(--white); }
+
+    .kontakt-info-block {
+      margin-bottom: 28px;
+    }
+
+    .kontakt-info-block label {
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .kontakt-info-block a,
+    .kontakt-info-block span {
+      font-size: 1.1rem;
+      color: var(--white);
+      transition: color 0.2s;
+    }
+
+    .kontakt-info-block a:hover { color: var(--gold); }
+
+    .kontakt-social {
+      display: flex;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-family: var(--font-head);
+      letter-spacing: 1px;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      border-color: var(--blue);
+      background: rgba(43,126,193,0.2);
+    }
+
+    .social-btn svg { flex-shrink: 0; }
+
+    /* Audio player */
+    .hymna-player {
+      background: linear-gradient(135deg, rgba(245,196,0,0.12) 0%, rgba(245,196,0,0.04) 100%);
+      border: 1px solid rgba(245,196,0,0.3);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 32px;
+    }
+
+    .hymna-player-title {
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .hymna-player h4 {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .hymna-player p { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .play-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover { background: #e6b800; transform: scale(1.08); }
+
+    .audio-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audio-progress {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .audio-time { font-size: 0.8rem; color: rgba(255,255,255,0.45); min-width: 36px; }
+
+    /* Map */
+    .kontakt-map {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .kontakt-map iframe {
+      width: 100%;
+      height: 340px;
+      border: 0;
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0,0,0,0.3);
+      padding: 28px 0;
+      margin-top: 80px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .footer p { font-size: 0.85rem; color: rgba(255,255,255,0.35); }
+    .footer span { color: var(--gold); }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      .events-grid { grid-template-columns: 1fr 1fr; }
+      .archive-list { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .papírak-body { padding: 28px 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links { display: none; }
+
+      .onas-grid { grid-template-columns: 1fr; }
+      .onas-img-wrap img { height: 280px; }
+      .features-row { grid-template-columns: 1fr; }
+
+      .events-grid { grid-template-columns: 1fr; }
+      .papírak-inner { grid-template-columns: 1fr; }
+      .fourpm-block { flex-direction: column; gap: 16px; text-align: center; }
+      .archive-list { grid-template-columns: repeat(2, 1fr); }
+
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .blog-grid { grid-template-columns: 1fr; }
+
+      .kontakt-grid { grid-template-columns: 1fr; }
+      .kontakt-shoe-bg { width: 100%; opacity: 0.06; }
+
+      .galerie-hero { height: 200px; }
+      .galerie-hero-overlay { padding: 0 24px; }
+      .galerie-hero-text h2 { font-size: 1.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .archive-list { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { letter-spacing: 3px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       NAVIGACE
+  ============================================= -->
+  <nav id="navbar" role="navigation" aria-label="Hlavní navigace">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="SKK Čtyřkoly – domů">
+        <img src="SKKLogo9rbg.png" alt="SKK Čtyřkoly" style="height:80px; width:auto; display:block;" />
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#hero">Domů</a></li>
+        <li><a href="#onas">O nás</a></li>
+        <li><a href="#akce">Akce</a></li>
+        <li><a href="#galerie">Galerie</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobilní navigace">
+      <a href="#hero">Domů</a>
+      <a href="#onas">O nás</a>
+      <a href="#akce">Akce</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#blog">Blog</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </nav>
+
+  <!-- =============================================
+       HERO
+  ============================================= -->
+  <section id="hero" aria-label="Úvod">
+    <div class="hero-bg" role="img" aria-label="Parta cyklistů SKK Čtyřkoly na alpském jezeře"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- Erb obce Čtyřkoly (fotografie) -->
+    <div class="hero-crest" aria-hidden="true">
+      <img src="ctyrkoly_erb_barevny.jpg"
+           class="erb-obce"
+           alt="Erb obce Čtyřkoly" />
+    </div>
+
+    <div class="hero-content">
+      <!-- UPRAVITELNÝ CLAIM -->
+      <span class="hero-eyebrow">sportovně-kulturní klub</span>
+      <h1 class="hero-title">SKK <span>ČTYŘKOLY</span></h1>
+      <p class="hero-claim">
+        Čtyři kola, dvoje lyže, dvě nohy a nespočet párů bot&nbsp;—<br>
+        a parta kamarádů, která je ráda spolu.
+      </p>
+      <div class="hero-cta">
+        <a href="#onas" class="btn btn-gold">Zjistit více</a>
+        <a href="#akce" class="btn btn-outline">Nejbližší akce</a>
+      </div>
+    </div>
+
+    <a href="#onas" class="hero-scroll" aria-label="Scrollovat dolů">
+      <svg width="32" height="32" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="14" stroke-opacity="0.5"/>
+        <polyline points="10,14 16,20 22,14"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- =============================================
+       O NÁS
+  ============================================= -->
+  <section id="onas" aria-labelledby="onas-heading">
+    <div class="container">
+      <div class="onas-grid">
+
+        <!-- Obrázek -->
+        <div class="onas-img-wrap fade-in-left">
+          <!-- DOPROVODNÝ OBRÁZEK SEKCE O NÁS -->
+          <img src="knihobudka.jpg" alt="Vtipná malba na dřevě – umělecký duch klubu SKK Čtyřkoly" loading="lazy" />
+          <div class="onas-img-badge">Založeno 10.12.2014 · SKK Spartak Čtyřkoly</div>
+        </div>
+
+        <!-- Text -->
+        <div class="onas-text fade-in-right">
+          <span class="section-label">Kdo jsme</span>
+          <h2 class="section-title" id="onas-heading">Nejsme klub.<br><span>Jsme parta.</span></h2>
+
+          <!-- UPRAVITELNÝ TEXT SEKCE O NÁS -->
+          <p>
+            SKK Čtyřkoly vznikl z prosté potřeby – lidé z obce Čtyřkoly a okolí chtěli sportovat, bavit se a neztratit se navzájem v uspěchaném světě. Začalo to pár koly na silnici, přibyly lyže, pak běh, pak triatlon a najednou jsme měli klub, hymnu a legendy, které se přetahují dodnes.
+          </p>
+          <p>
+            Jsme hrdí na to, že u nás nezáleží na výsledcích, ale na přístupu. Výborný výkon oceníme. Ale ještě víc oceníme toho, kdo dojede poslední, ale s úsměvem. Přesně takový sport nás baví.
+          </p>
+          <p>
+            Sportujeme, pořádáme plesy, Silvestra, turnaje, výlety a leccos mezi tím. Vlajková akce – triatlon <strong>Čtyřkolský papírák</strong> – jehož pořádání jsme převzali do Osady Montana, je každoroční důkaz, že nás v okolních obcích baví být spolu a nic a nikdo nás nezastaví. Ani déšť, ani vítr, ani pozdní příchod na start 🙂
+          </p>
+
+          <!-- Hymna bar -->
+          <div class="hymna-bar">
+            <span class="hymna-icon">🎵</span>
+            <div>
+              <strong>Klub má vlastní hymnu.</strong>
+              Zazní na každé akci – a pokud ji ještě neznáš, brzy budeš zpívat spolu s námi.
+              <br><a href="#kontakt">Pusť si ji ↓</a>
+            </div>
+          </div>
+
+          <!-- VIDEO PŘEHRÁVAČ HYMNY – soubor 4KOLASKK.mp4 ve stejné složce -->
+          <div class="hymna-video-wrap">
+            <div class="hymna-video-label">
+              <span>🎵</span>
+              <strong>Klubová hymna</strong>
+              <em>– pusť nahlas, sousedi počkají</em>
+            </div>
+            <video controls preload="metadata">
+              <source src="4KOLASKK.mp4" type="video/mp4" />
+              Váš prohlížeč nepodporuje přehrávání videa.
+            </video>
+          </div>
+
+          <a href="#akce" class="btn btn-primary">Co chystáme</a>
+        </div>
+      </div>
+
+      <!-- Feature boxy -->
+      <div class="features-row">
+        <!-- FEATURE BOX 1 – SPORT -->
+        <div class="feature-box fade-in">
+          <div class="feat-icon">🚴</div>
+          <h3>Sport</h3>
+          <p>Cyklistika, lyže, běh, triatlon. Závodíme, projíždíme, zdoláváme kopce a občas se necháme zdolat zpátky. Vždy se vrátíme.</p>
+        </div>
+        <!-- FEATURE BOX 2 – KOMUNITA -->
+        <div class="feature-box fade-in" style="transition-delay: 0.15s">
+          <div class="feat-icon">🤝</div>
+          <h3>Komunita</h3>
+          <p>Z Čtyřkol i okolí. Mezi námi jsou olympijci, hobíci i ti, kteří jezdí „pro zdraví". Každý má tady své místo a svůj příběh.</p>
+        </div>
+        <!-- FEATURE BOX 3 – ZÁBAVA -->
+        <div class="feature-box fade-in" style="transition-delay: 0.3s">
+          <div class="feat-icon">🎉</div>
+          <h3>Zábava</h3>
+          <p>Silvestra, plesy, tenisové a volejbalové turnaje. Sport je záminkou. Hlavní program začíná po cíli.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       AKCE
+  ============================================= -->
+  <section id="akce" aria-labelledby="akce-heading">
+    <div class="akce-bg-img" aria-hidden="true" role="img" aria-label="Kola odpočívající na trávě u rybníka"></div>
+    <div class="container">
+
+      <span class="section-label">Co se děje</span>
+      <h2 class="section-title" id="akce-heading">Nadcházející <span>akce</span></h2>
+      <p class="section-lead">Zkontroluj si diář. Některé věci nechceš zmeškát.</p>
+
+      <!-- PŘIDÁVEJ / EDITUJ NADCHÁZEJÍCÍ AKCE ZDE – kopíruj blok event-card -->
+      <!-- <div class="events-grid">
+        <div class="event-card fade-in">
+          <div class="event-icon">🏃</div>
+          <div class="event-date">datum</div>
+          <div class="event-name">Název akce</div>
+          <p class="event-desc">Popis akce.</p>
+        </div>
+      </div> -->
+
+      <!-- ===== ČTYŘKOLSKÝ PAPÍRÁK 2026 – hlavní akce ===== -->
+      <!-- EDITUJ DATUM ZÁVODU v JS sekci níže: const PAPIRAK_DATE -->
+      <div class="papírak-section fade-in">
+        <div class="papírak-inner">
+
+          <!-- Plakát vlevo -->
+          <!-- EDITUJ PLAKÁT: změň src na jiný soubor -->
+          <div class="papírak-poster">
+            <img src="4P2026.png" alt="Plakát Čtyřkolský Papírák 2026" />
+          </div>
+
+          <!-- Obsah vpravo -->
+          <div class="papírak-body">
+            <div class="papírak-badge">🏆 Vlajková akce klubu</div>
+
+            <!-- EDITUJ NADPIS, DATUM, MÍSTO ZDE -->
+            <h3 class="papírak-title">Čtyřkolský Papírák 2026</h3>
+            <p class="papírak-subtitle">Triatlon u jezu ve Lštění</p>
+            <p class="papírak-date">📅 Sobota 27. 6. 2026</p>
+
+            <!-- EDITUJ POŘADATELE ZDE -->
+            <p class="papírak-organizers">
+              <strong>Pořadatelé:</strong> SKK Čtyřkoly · Obec Čtyřkoly · SDH Čtyřkoly
+            </p>
+
+            <!-- Countdown – datum řízeno JS konstantou PAPIRAK_DATE -->
+            <div class="papírak-countdown" id="papirakCountdown" aria-live="polite">
+              <div class="countdown-unit"><span class="countdown-num" id="cdDays">–</span><span class="countdown-lbl">dní</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cdHours">–</span><span class="countdown-lbl">hodin</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cdMins">–</span><span class="countdown-lbl">minut</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cdSecs">–</span><span class="countdown-lbl">sekund</span></div>
+            </div>
+
+            <!-- EDITUJ DISCIPLÍNY ZDE -->
+            <div class="papírak-disciplines">
+              <div class="papírak-discipline"><span>🏊</span> Plavání 150 m</div>
+              <div class="papírak-discipline"><span>🚴</span> Kolo 12 km</div>
+              <div class="papírak-discipline"><span>🏃</span> Běh 1,5 km</div>
+            </div>
+
+            <!-- EDITUJ HARMONOGRAM A INFO ZDE -->
+            <div class="papírak-meta">
+              <div class="papírak-meta-block">
+                <h5>Harmonogram</h5>
+                <ul>
+                  <li>Prezentace: 9:30 – 10:15</li>
+                  <li>Start: 10:30</li>
+                </ul>
+              </div>
+              <div class="papírak-meta-block">
+                <h5>Informace</h5>
+                <p>Startovat mohou dospělí a děti od 12 let. Registrace na místě. Občerstvení zajištěno.</p>
+              </div>
+            </div>
+
+            <a href="#kontakt" class="btn btn-gold" style="width:fit-content;">
+              Přihlásit se / Napsat nám
+            </a>
+          </div><!-- /.papírak-body -->
+        </div><!-- /.papírak-inner -->
+      </div><!-- /.papírak-section -->
+
+      <!-- 4PM KARTA – Čtyřkolský půlmaraton -->
+      <!--
+        NASTAVENÍ GOOGLE APPS SCRIPT:
+        1. Jdi na script.google.com
+        2. Nový projekt, vlož tento kód:
+           function doPost(e) {
+             var sheet = SpreadsheetApp.openById(
+               '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw'
+             ).getActiveSheet();
+             var data = JSON.parse(e.postData.contents);
+             sheet.appendRow([data.jmeno, data.datum,
+                              data.cas, data.poznamka,
+                              new Date()]);
+             return ContentService.createTextOutput('OK');
+           }
+        3. Nasaď jako Web App (Execute as: Me, Access: Anyone)
+        4. Zkopíruj URL a nahraď APPS_SCRIPT_URL v kódu níže
+      -->
+      <div class="fourpm-card fade-in">
+
+        <!-- Záhlaví karty -->
+        <div class="fourpm-card-header">
+          <div class="fourpm-icon">🏃‍♂️</div>
+          <div>
+            <!-- EDITUJ TEXT KARTY 4PM ZDE -->
+            <h3>4PM – Čtyřkolský půlmaraton</h3>
+            <p>
+              Přijďte si k nám zaběhnout 4PM Čtyřkolský půlmaraton,
+              který jak už název trasy napovídá, je nejlepší odstartovat
+              ve 4 odpoledne 🙂 Napište nám, jak se vám trasa líbí.
+              A třeba i nasdílejte svůj čas!
+            </p>
+            <!-- EDITUJ ODKAZ NA MAPU ZDE -->
+            <a href="https://mapy.com/s/fafejobuba"
+               target="_blank" rel="noopener"
+               class="btn-map">
+              🗺️ Zobrazit trasu na mapě
+            </a>
+          </div>
+        </div>
+
+        <!-- Formulář sdílení času -->
+        <div class="fourpm-form-block">
+          <h4>📋 Sdílejte svůj čas</h4>
+          <form id="fourpmForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fp-jmeno">Jméno *</label>
+                <input type="text" id="fp-jmeno" name="jmeno" required placeholder="Vaše jméno" />
+              </div>
+              <div class="form-group">
+                <label for="fp-datum">Datum běhu *</label>
+                <input type="date" id="fp-datum" name="datum" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fp-cas">Čas *</label>
+                <input type="text" id="fp-cas" name="cas" required placeholder="např. 1:45:30" />
+              </div>
+              <div class="form-group">
+                <label for="fp-poznamka">Poznámka</label>
+                <textarea id="fp-poznamka" name="poznamka" placeholder="Jak se vám trasa líbila?"></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold" style="margin-top:4px;">Odeslat</button>
+            <div class="form-status" id="fourpmStatus"></div>
+          </form>
+        </div>
+
+        <!-- Výsledková listina -->
+        <div class="results-board">
+          <div class="results-board-head">
+            <h4>🏅 Výsledková listina</h4>
+            <button class="btn-refresh" id="fourpmRefresh">↻ Obnovit výsledky</button>
+          </div>
+          <div class="results-table-wrap">
+            <table class="results-table" aria-label="Výsledková listina 4PM">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Jméno</th>
+                  <th>Datum</th>
+                  <th>Čas</th>
+                  <th>Poznámka</th>
+                </tr>
+              </thead>
+              <tbody id="fourpmResults">
+                <tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /.fourpm-card -->
+
+      <!-- Archiv proběhlých akcí -->
+      <!-- PŘIDÁVEJ / EDITUJ ARCHIV ZDE -->
+      <div>
+        <div class="archive-title">Proběhlo</div>
+        <div class="archive-list">
+          <div class="archive-item fade-in">
+            <div class="arc-date">20. 2. 2026</div>
+            <div class="arc-name">🎉 Ples Hasičů</div>
+          </div>
+          <div class="archive-item fade-in" style="transition-delay:0.1s">
+            <div class="arc-date">9. – 13. 2. 2026</div>
+            <div class="arc-name">⛷️ Chlapohory Sexten</div>
+          </div>
+          <div class="archive-item fade-in" style="transition-delay:0.2s">
+            <div class="arc-date">11. – 15. 8. 2025</div>
+            <div class="arc-name">🚴 Tour de Garda</div>
+          </div>
+          <div class="archive-item fade-in" style="transition-delay:0.3s">
+            <div class="arc-date">18. – 22. 6. 2025</div>
+            <div class="arc-name">🚵 Chlapokola Inzell</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       GALERIE
+  ============================================= -->
+  <section id="galerie" aria-labelledby="galerie-heading">
+    <div class="container">
+
+      <!-- Hero obrázek galerie -->
+      <div class="galerie-hero fade-in">
+        <img src="peleton.jpg" alt="Skupina cyklistů SKK Čtyřkoly na lesní cestě" loading="lazy" />
+        <div class="galerie-hero-overlay">
+          <div class="galerie-hero-text">
+            <span class="section-label" style="color:rgba(255,255,255,0.7); border-color:var(--gold)">Fotky z akcí</span>
+            <h2 id="galerie-heading">Galerie</h2>
+            <p>Klikni na obrázek – otevře se lightbox.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtrování -->
+      <div class="gallery-filters fade-in" role="group" aria-label="Filtrovat galerii">
+        <button class="filter-btn active" data-filter="all">Vše</button>
+        <button class="filter-btn" data-filter="beh">Běh</button>
+        <button class="filter-btn" data-filter="papirak">Čtyřkolský Papírák</button>
+        <button class="filter-btn" data-filter="horskakola">Horská kola</button>
+        <button class="filter-btn" data-filter="lyze">Lyže</button>
+        <button class="filter-btn" data-filter="silnicky">Silničky</button>
+        <button class="filter-btn" data-filter="hory">Hory</button>
+      </div>
+
+      <!-- Galerie grid -->
+      <!-- PŘIDÁVEJ FOTKY: zkopíruj libovolný blok gallery-item, změn data-album, data-src a alt -->
+      <div class="gallery-grid" id="galleryGrid">
+
+        <!-- ======= ALBUM: Běh / Půlmaratón Ústí ======= -->
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_135309.jpg" data-caption="Půlmaratón Ústí 2018">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_135309.jpg" alt="Půlmaratón Ústí 2018" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_141429.jpg" data-caption="Půlmaratón Ústí 2018">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_141429.jpg" alt="Půlmaratón Ústí 2018" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_162914.jpg" data-caption="Půlmaratón Ústí 2018">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_162914.jpg" alt="Půlmaratón Ústí 2018" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_162951.jpg" data-caption="Půlmaratón Ústí 2018">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_162951.jpg" alt="Půlmaratón Ústí 2018" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_173414.jpg" data-caption="Půlmaratón Ústí 2018">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_173414.jpg" alt="Půlmaratón Ústí 2018" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="beh" data-src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG20250628123711.jpg" data-caption="Půlmaratón Ústí">
+          <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG20250628123711.jpg" alt="Půlmaratón Ústí" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Čtyřkolský Papírák ======= -->
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250627161506.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250627161506.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250627161531.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250627161531.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091539.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091539.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091604.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091604.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091714.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628091714.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628092413.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628092413.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093024.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093024.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093034.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093034.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093914.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628093914.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628094009.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628094009.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122025.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122025.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122145.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122145.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122556.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122556.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122558.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122558.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122700.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122700.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122820.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628122820.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123007.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123007.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123103.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123103.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123234.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123234.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123237.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123237.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123254.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123254.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123257.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123257.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123357.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123357.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123401.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123401.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123404.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123404.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="papirak" data-src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123711.jpg" data-caption="Čtyřkolský Papírák 2025">
+          <img src="img/Galerie/Čtyřkolský%20Papírák/IMG20250628123711.jpg" alt="Čtyřkolský Papírák 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Inzell 2025 ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Inzell%202025/9957343d-e295-4ccf-8978-79635f5bf088.jpg" data-caption="Chlapokola Inzell 2025">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Inzell%202025/9957343d-e295-4ccf-8978-79635f5bf088.jpg" alt="Chlapokola Inzell 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Jizerky ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4898.JPG" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4898.JPG" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4925.JPG" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4925.JPG" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4944.JPG" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4944.JPG" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4945.JPG" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/IMG_4945.JPG" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/kolo%201.jpg" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/kolo%201.jpg" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/kolo%202.jpg" data-caption="Chlapokola Jizerky">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Jizerky/kolo%202.jpg" alt="Chlapokola Jizerky" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Lermoos 2022 ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8383.JPG" data-caption="Chlapokola Lermoos 2022">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8383.JPG" alt="Chlapokola Lermoos 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8436.JPG" data-caption="Chlapokola Lermoos 2022">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8436.JPG" alt="Chlapokola Lermoos 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8444.JPG" data-caption="Chlapokola Lermoos 2022">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lermoos%202022/IMG_8444.JPG" alt="Chlapokola Lermoos 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Lipno ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2168.JPG" data-caption="Chlapokola Lipno">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2168.JPG" alt="Chlapokola Lipno" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2220.JPG" data-caption="Chlapokola Lipno">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2220.JPG" alt="Chlapokola Lipno" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2256.JPG" data-caption="Chlapokola Lipno">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Lipno/IMG_2256.JPG" alt="Chlapokola Lipno" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Maria Alm 2023 ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_1655.JPG" data-caption="Chlapokola Maria Alm 2023">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_1655.JPG" alt="Chlapokola Maria Alm 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_1662.JPG" data-caption="Chlapokola Maria Alm 2023">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_1662.JPG" alt="Chlapokola Maria Alm 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_20230609_163441.jpg" data-caption="Chlapokola Maria Alm 2023">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Maria%20Alm%202023/IMG_20230609_163441.jpg" alt="Chlapokola Maria Alm 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Horská kola / Tauplitz 2024 ======= -->
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/04e2f925-cf6e-4d8d-9a97-4d90bd5886ce.jpg" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/04e2f925-cf6e-4d8d-9a97-4d90bd5886ce.jpg" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/30dd7909-2323-4bf0-a321-91abda5ea49c.jpg" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/30dd7909-2323-4bf0-a321-91abda5ea49c.jpg" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/36860af3-ea66-4d4b-a16d-8e0839679555.jpg" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/36860af3-ea66-4d4b-a16d-8e0839679555.jpg" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/b16d464c-0a5c-465f-9499-6cde6b8fc44a.jpg" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/b16d464c-0a5c-465f-9499-6cde6b8fc44a.jpg" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/fc8df6e0-7dbc-49cd-8125-7c544e88934c.jpg" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/fc8df6e0-7dbc-49cd-8125-7c544e88934c.jpg" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="horskakola" data-src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/IMG_6583.PNG" data-caption="Chlapokola Tauplitz 2024">
+          <img src="img/Galerie/Horská%20kola/Chlapokola%20Tauplitz%202024/IMG_6583.PNG" alt="Chlapokola Tauplitz 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Lyže / Sella Ronda 2022 ======= -->
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/03154099-0938-45a1-aede-4ed3acc025f9.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/03154099-0938-45a1-aede-4ed3acc025f9.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/10868241_911991165497828_6307839525046902830_n.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/10868241_911991165497828_6307839525046902830_n.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/23a90b90-6f13-4e3a-bd99-720fe2db692e.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/23a90b90-6f13-4e3a-bd99-720fe2db692e.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/249e52ff-eb78-4038-acef-185dca9d65ba.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/249e52ff-eb78-4038-acef-185dca9d65ba.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/3f15f7fb-f737-4d7e-adc3-ead50715ab6c.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/3f15f7fb-f737-4d7e-adc3-ead50715ab6c.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/458661ec-ab6d-4f6b-a74a-ff53547264ba.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/458661ec-ab6d-4f6b-a74a-ff53547264ba.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/606bbc35-7eeb-4d11-b834-ca04b3a589c0.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/606bbc35-7eeb-4d11-b834-ca04b3a589c0.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/667a7b40-71e4-49f7-a54f-a708bc58edbc.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/667a7b40-71e4-49f7-a54f-a708bc58edbc.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/717b0275-221f-4ee0-ac46-ef4b1f399c66.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/717b0275-221f-4ee0-ac46-ef4b1f399c66.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/7437bf53-ddd2-4a74-99c8-327fe72a49cd.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/7437bf53-ddd2-4a74-99c8-327fe72a49cd.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/8dad2676-c8ef-40f4-b086-989505513e51.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/8dad2676-c8ef-40f4-b086-989505513e51.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/fed327da-000f-4db7-b382-6fa5f5d7ee06.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/fed327da-000f-4db7-b382-6fa5f5d7ee06.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_2909.JPG" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_2909.JPG" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4074.JPG" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4074.JPG" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4075.JPG" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4075.JPG" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4082.JPG" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_4082.JPG" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_8857.PNG" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG_8857.PNG" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG00053-20100116-1134.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/IMG00053-20100116-1134.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/Obraz0028.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/Obraz0028.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="lyze" data-src="img/Galerie/Lyže/Sella%20Ronda%202022/PHOTO-2022-01-22-15-55-59.jpg" data-caption="Sella Ronda 2022">
+          <img src="img/Galerie/Lyže/Sella%20Ronda%202022/PHOTO-2022-01-22-15-55-59.jpg" alt="Sella Ronda 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Adria 2025 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Adria%202025/42fd36da-654d-471c-a915-4ad60772153e.jpg" data-caption="Tour de Adria 2025">
+          <img src="img/Galerie/Silničky/Tour%20de%20Adria%202025/42fd36da-654d-471c-a915-4ad60772153e.jpg" alt="Tour de Adria 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Adria%202025/81925ab3-b56c-48ab-87c3-72096ada43da.jpg" data-caption="Tour de Adria 2025">
+          <img src="img/Galerie/Silničky/Tour%20de%20Adria%202025/81925ab3-b56c-48ab-87c3-72096ada43da.jpg" alt="Tour de Adria 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Adria%202025/94564186-92b8-4a6c-96c8-7f4206bd3fbc.jpg" data-caption="Tour de Adria 2025">
+          <img src="img/Galerie/Silničky/Tour%20de%20Adria%202025/94564186-92b8-4a6c-96c8-7f4206bd3fbc.jpg" alt="Tour de Adria 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Adria%202025/d69d5141-0dd7-4bd4-9914-ea9256e0ff1c.jpg" data-caption="Tour de Adria 2025">
+          <img src="img/Galerie/Silničky/Tour%20de%20Adria%202025/d69d5141-0dd7-4bd4-9914-ea9256e0ff1c.jpg" alt="Tour de Adria 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Adria%202025/IMG_7216.PNG" data-caption="Tour de Adria 2025">
+          <img src="img/Galerie/Silničky/Tour%20de%20Adria%202025/IMG_7216.PNG" alt="Tour de Adria 2025" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Bohemia 2021 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202021/IMG_9213.JPG" data-caption="Tour de Bohemia 2021">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202021/IMG_9213.JPG" alt="Tour de Bohemia 2021" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202021/IMG_9217.JPG" data-caption="Tour de Bohemia 2021">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202021/IMG_9217.JPG" alt="Tour de Bohemia 2021" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Bohemia 2022 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3187.JPG" data-caption="Tour de Bohemia 2022">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3187.JPG" alt="Tour de Bohemia 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3196.JPG" data-caption="Tour de Bohemia 2022">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3196.JPG" alt="Tour de Bohemia 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3199.JPG" data-caption="Tour de Bohemia 2022">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3199.JPG" alt="Tour de Bohemia 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3326.JPG" data-caption="Tour de Bohemia 2022">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202022/IMG_3326.JPG" alt="Tour de Bohemia 2022" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Bohemia 2023 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5954.JPG" data-caption="Tour de Bohemia 2023">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5954.JPG" alt="Tour de Bohemia 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5958.JPG" data-caption="Tour de Bohemia 2023">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5958.JPG" alt="Tour de Bohemia 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5964.JPG" data-caption="Tour de Bohemia 2023">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5964.JPG" alt="Tour de Bohemia 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5966.JPG" data-caption="Tour de Bohemia 2023">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_5966.JPG" alt="Tour de Bohemia 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_6008.JPG" data-caption="Tour de Bohemia 2023">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202023/IMG_6008.JPG" alt="Tour de Bohemia 2023" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Bohemia 2024 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/64e2c09d-7f72-4e90-a761-9e028d091ba9.jpg" data-caption="Tour de Bohemia 2024">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/64e2c09d-7f72-4e90-a761-9e028d091ba9.jpg" alt="Tour de Bohemia 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/68389331-8248-4837-99b3-39081502b727.jpg" data-caption="Tour de Bohemia 2024">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/68389331-8248-4837-99b3-39081502b727.jpg" alt="Tour de Bohemia 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/b0046a1e-1d3c-499a-9217-c52e89339d92.jpg" data-caption="Tour de Bohemia 2024">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/b0046a1e-1d3c-499a-9217-c52e89339d92.jpg" alt="Tour de Bohemia 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/fb61a23d-eea9-4e3a-83b2-afeff778ead2.jpg" data-caption="Tour de Bohemia 2024">
+          <img src="img/Galerie/Silničky/Tour%20de%20Bohemia%202024/fb61a23d-eea9-4e3a-83b2-afeff778ead2.jpg" alt="Tour de Bohemia 2024" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+        <!-- ======= ALBUM: Silničky / Tour de Garda 2026 ======= -->
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/218d50cb-2aea-49e1-be8b-2296af84cbf3.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/218d50cb-2aea-49e1-be8b-2296af84cbf3.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/22943693-afc3-4e2f-a23d-f8051c2a55c3.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/22943693-afc3-4e2f-a23d-f8051c2a55c3.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/43150c49-b2e3-4b5b-ab02-c5b8046934f5.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/43150c49-b2e3-4b5b-ab02-c5b8046934f5.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/4aba2290-7e6a-4fa4-ac19-96c2f8fd92db.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/4aba2290-7e6a-4fa4-ac19-96c2f8fd92db.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/81e9481c-94de-4e4e-a541-12e2a4845f08.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/81e9481c-94de-4e4e-a541-12e2a4845f08.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/92a39e2a-fcde-4541-91a7-b4b0f4311b86.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/92a39e2a-fcde-4541-91a7-b4b0f4311b86.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/94a04179-bc3b-4b25-a16b-a360ece6c9af.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/94a04179-bc3b-4b25-a16b-a360ece6c9af.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/d9e07e7b-4eb3-4d88-ab28-f0b78c75d4f1.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/d9e07e7b-4eb3-4d88-ab28-f0b78c75d4f1.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/e10d8299-47b2-427a-b720-6c0b05e9d0d2.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/e10d8299-47b2-427a-b720-6c0b05e9d0d2.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+        <div class="gallery-item" data-album="silnicky" data-src="img/Galerie/Silničky/Tour%20de%20Garda%202026/f3335646-2e15-43e0-8799-5c3ea3c226dd.jpg" data-caption="Tour de Garda 2026">
+          <img src="img/Galerie/Silničky/Tour%20de%20Garda%202026/f3335646-2e15-43e0-8799-5c3ea3c226dd.jpg" alt="Tour de Garda 2026" loading="lazy" />
+          <div class="gallery-overlay" aria-hidden="true">🔍</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Prohlížeč obrázků">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Zavřít">&times;</button>
+    <button class="lightbox-prev" id="lightboxPrev" aria-label="Předchozí">&#8249;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-next" id="lightboxNext" aria-label="Další">&#8250;</button>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <!-- =============================================
+       BLOG – Ze života klubu
+  ============================================= -->
+  <section id="blog" aria-labelledby="blog-heading">
+    <div class="container">
+      <span class="section-label">Ze života klubu</span>
+      <h2 class="section-title" id="blog-heading">Příběhy, <span>které stojí za to</span></h2>
+      <p class="section-lead">Nemáme PR manažera. Píšeme sami, jak to bylo.</p>
+
+      <!-- ZDE PŘIDÁVEJ NOVÉ PŘÍSPĚVKY – kopíruj blok article.blog-card níže -->
+      <div class="blog-grid">
+
+        <!-- ============================================================
+             PŘÍSPĚVEK: Nepal 2025 – Langtang & Gosaikunda
+        ============================================================ -->
+        <article class="blog-card blog-featured fade-in">
+          <div class="blog-img">
+            <img src="langtang1.jpg" alt="Langtang Valley – Nepal 2025" loading="lazy" />
+            <span class="blog-tag">Výpravy</span>
+          </div>
+
+          <div class="blog-body">
+            <div class="blog-meta">listopad 2025 · SKK Čtyřkoly</div>
+            <h3>Nepal 2025: Langtang a Gosaikunda – 12 dní v srdci Himálaje</h3>
+
+            <p class="blog-perex">
+              Oli Nešporová, Robert Nešpor a Petr Beneš zdolali jeden z nejkrásnějších treků Nepálu – Langtang a Gosaikunda. 12 dní, 4 985 metrů nad mořem a nezapomenutelné zážitky.
+            </p>
+
+            <p>
+              Každý rok se část party SKK Čtyřkoly vydá do světa na velkou výpravu. Letos v listopadu 2025 to byl Nepál – konkrétně kombinace Langtang trekku a Gosaikunda trekku, jeden z nejkrásnějších a přitom méně přeplněných treků celého Himálaje.
+            </p>
+
+            <div class="blog-photo-pair">
+              <img src="langtang1.jpg" alt="Langtang Valley – pohled na údolí" loading="lazy" />
+              <img src="langtang2.jpg" alt="Gosaikunda – posvátné jezero" loading="lazy" />
+            </div>
+
+            <span class="blog-quote-label">Kde jsme byli?</span>
+            <p>
+              Langtang Valley leží pouhých 52 km severně od Kathmándú, přesto působí jako jiný svět. Trek vedl přes tradiční vesnice kmene Tamang, husté lesy rododendronů a bambusů, až do alpských luk a ledovcového údolí. Hlavní zastávky:
+            </p>
+            <ul style="color:var(--text-muted); font-size:0.97rem; line-height:1.8; padding-left:20px; margin:12px 0 20px;">
+              <li><strong>Kyanjin Gompa (3 870 m)</strong> – buddhistický klášter a centrum údolí</li>
+              <li><strong>Tserko Ri (4 985 m)</strong> – nejvyšší bod výpravy, 360° výhled na Langtang Lirung (7 234 m), Ganesh Himal a desítky dalších vrcholů</li>
+              <li><strong>Gosaikunda (4 380 m)</strong> – posvátné alpské jezero, poutní místo hinduistů i buddhistů</li>
+            </ul>
+
+            <span class="blog-quote-label">Co nás nejvíc dostalo?</span>
+            <p>
+              Gosaikunda je místo, které vás zastaví. Tyrkysové jezero obklopené skalnatými hřebeny a zasněženými vrcholy, modlitební praporky vlající ve větru a absolutní ticho. Podle hinduistické mytologie ho stvořil sám bůh Šiva, aby uhasil žízeň. A výstup na Tserko Ri? Čtyři hodiny šlápot na prázdný žaludek, ale výhled z vrcholu za to stál každý krok.
+            </p>
+
+            <span class="blog-quote-label">Trek v číslech</span>
+            <div class="trek-stats">
+              <div class="trek-stat">
+                <div class="ts-icon">📅</div>
+                <div class="ts-value">12 dní</div>
+                <div class="ts-label">délka výpravy</div>
+              </div>
+              <div class="trek-stat">
+                <div class="ts-icon">🏔️</div>
+                <div class="ts-value">4 985 m</div>
+                <div class="ts-label">nejvyšší bod (Tserko Ri)</div>
+              </div>
+              <div class="trek-stat">
+                <div class="ts-icon">🌊</div>
+                <div class="ts-value">4 380 m</div>
+                <div class="ts-label">Gosaikunda jezero</div>
+              </div>
+              <div class="trek-stat">
+                <div class="ts-icon">👣</div>
+                <div class="ts-value">~115 km</div>
+                <div class="ts-label">celková trasa</div>
+              </div>
+            </div>
+
+            <p>
+              Langtang a Gosaikunda nejsou Everest Base Camp ani Annapurna Circuit – a to je přesně jejich kouzlo. Méně turistů, autentičtější vesnice, stejně dechberoucí výhledy.
+            </p>
+            <p><strong>Jedeme zase? Jasně. 🏔️</strong></p>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             PŘÍSPĚVEK: Jizerská 50 – únor 2026
+        ============================================================ -->
+        <article class="blog-card blog-featured fade-in">
+          <div class="blog-img">
+            <img src="J502026.jpg" alt="SKK Čtyřkoly na Jizerské 50 – 2026" loading="lazy" />
+            <span class="blog-tag">Závodní úspěchy</span>
+          </div>
+
+          <div class="blog-body">
+            <div class="blog-meta">únor 2026 · SKK Čtyřkoly</div>
+            <h3>SKK Čtyřkoly opět ve stopě legendární Jizerské 50!</h3>
+
+            <p class="blog-perex">
+              Trojice závodníků SKK Čtyřkoly se postavila na start legendární Jizerské 50 – a všichni tři zvládli náročnou padesátku výborně.
+            </p>
+
+            <p>
+              Letos panovaly rychlé, ale fyzicky náročné podmínky a konkurence byla tradičně obrovská. O to víc nás těší, že naši závodníci obstáli velmi solidně nejen v celkovém pořadí, ale i ve svých věkových kategoriích.
+            </p>
+
+            <div class="result-boxes">
+              <div class="result-box gold">
+                <div class="rb-medal">🥇</div>
+                <div class="rb-name">Daniel Horák (2008)</div>
+                <div class="rb-time">3:09:18</div>
+                <div class="rb-detail">4. místo ve věkové kategorii<br>365. místo celkově</div>
+              </div>
+              <div class="result-box silver">
+                <div class="rb-medal">🥈</div>
+                <div class="rb-name">Josef Neumann (1974)</div>
+                <div class="rb-time">3:22:06</div>
+                <div class="rb-detail">119. místo ve věkové kategorii<br>556. místo celkově</div>
+              </div>
+              <div class="result-box bronze">
+                <div class="rb-medal">🥉</div>
+                <div class="rb-name">Laďa Horák (1974)</div>
+                <div class="rb-time">3:50:09</div>
+                <div class="rb-detail">1. místo ve věkové kategorii<br>1104. místo celkově</div>
+              </div>
+            </div>
+
+            <p>
+              Jizerská 50 patří mezi největší dálkové běhy na lyžích v Evropě a každý, kdo projede cílem v Bedřichově, ví, že to není samozřejmost. O to větší radost máme, že SKK Čtyřkoly měl letos v hlavním závodě hned tři závodníky — a všichni úspěšně dokončili.
+            </p>
+            <p>
+              Díky za skvělou reprezentaci oddílu a těšíme se na další ročník. Možná nás příště pojede ještě víc.
+            </p>
+            <p><strong>SKK Čtyřkoly jede dál. 🎿</strong></p>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             PŘÍSPĚVEK: Matěj Beneš – Beskydská sedmička 2021
+             Edituj text níže, foto je z externího URL
+        ============================================================ -->
+        <article class="blog-card blog-featured fade-in">
+          <div class="blog-img">
+            <img
+              src="https://www.beskydskasedmicka.cz/wp-content/uploads/2021/08/KUB_2886-860x574.jpg"
+              alt="Matěj Beneš v cíli Beskydské sedmičky 2021"
+              loading="lazy"
+            />
+            <span class="blog-tag">Závodní úspěchy</span>
+          </div>
+
+          <div class="blog-body">
+            <div class="blog-meta">srpen 2021 · SKK Čtyřkoly</div>
+            <h3>Matěj Beneš vyhrál Beskydskou sedmičku!</h3>
+
+            <!-- Perex -->
+            <p class="blog-perex">
+              Teprve devatenáctiletý člen SKK Čtyřkoly doběhl jako první do cíle Beskydské sedmičky
+              ve fantastickém čase 11:20:48.
+            </p>
+
+            <!-- Citát 1 – v cíli -->
+            <blockquote class="blog-quote">
+              <p>„Tak, jako dneska, jsem se ještě nikdy v závodě nevydal. Co k tomu říct, to je úplná nádhera.
+              Vůbec by mě nenapadlo, že je to v mých možnostech. Myslel jsem si, že hodně ambiciózní cíl
+              je 12 hodin – nakonec je to o 40 minut rychlejší. Ani ve snu by mě to nenapadlo."</p>
+            </blockquote>
+
+            <!-- Sekce 2 -->
+            <span class="blog-quote-label">Závod očima vítěze</span>
+            <blockquote class="blog-quote">
+              <p>„Od 60 kilometru závod dost štípal, ale to prostě k ultramaratonu patří.
+              Extrémní krize nepřišla, ale už to hodně bolelo a musel jsem hodně zapojit
+              hlavu a na morál dojít do cíle."</p>
+            </blockquote>
+
+            <!-- Sekce 3 -->
+            <span class="blog-quote-label">V cíli</span>
+            <blockquote class="blog-quote">
+              <p>„V cíli jsem měl pocit úlevy, že už to má za sebou,
+              a taky velká bolest, protože jsem na trati nechal opravdu všechno."</p>
+            </blockquote>
+
+            <!-- CTA tlačítko -->
+            <a
+              href="https://www.beskydskasedmicka.cz/vitez-b7-matej-benes-nenapadlo-me-ze-je-to-v-mym-moznostech/"
+              target="_blank"
+              rel="noopener"
+              class="btn-article"
+            >
+              Číst celý rozhovor →
+            </a>
+          </div>
+        </article>
+
+      </div>
+      <!-- ZDE PŘIDÁVEJ NOVÉ PŘÍSPĚVKY (kopíruj blok article.blog-card výše) -->
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       KONTAKT
+  ============================================= -->
+  <section id="kontakt" aria-labelledby="kontakt-heading">
+    <div class="kontakt-shoe-bg" aria-hidden="true" role="img" aria-label="Cyklistické boty – dekorativní pozadí"></div>
+    <div class="container">
+
+      <div class="kontakt-grid">
+
+        <!-- Kontaktní info -->
+        <div class="fade-in-left">
+          <span class="section-label">Napiš nám</span>
+          <h2 class="section-title" id="kontakt-heading">Kontakt &amp; <span>kde nás najdeš</span></h2>
+          <p style="color:rgba(255,255,255,0.6); margin-bottom:32px; font-size:1rem;">
+            Nekoušeme. Na maily odpovídáme – zpravidla dřív než příště prší.
+          </p>
+
+          <!-- EDITUJ KONTAKTNÍ ÚDAJE ZDE -->
+          <div class="kontakt-info-block">
+            <label>E-mail</label>
+            <a href="mailto:neumann.josef@gmail.com">Pepa Neumann – neumann.josef@gmail.com</a>
+          </div>
+
+          <div class="kontakt-info-block">
+            <label>Obec</label>
+            <span>Čtyřkoly, okres Benešov, Středočeský kraj</span>
+          </div>
+
+          <div class="kontakt-social">
+            <!-- Messenger skupina – cyclorunners -->
+            <div class="social-btn" style="cursor:default;" aria-label="Messenger skupina cyclorunners">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.318 5.52 3.396 7.28V22l3.103-1.704A10.8 10.8 0 0012 20.486c5.523 0 10-4.145 10-9.243S17.523 2 12 2zm1.05 12.45l-2.547-2.718-4.972 2.718 5.473-5.812 2.61 2.718 4.908-2.718-5.472 5.812z"/>
+              </svg>
+              Messenger skupina: <strong style="color:var(--gold); margin-left:5px;">cyclorunners</strong>
+            </div>
+          </div>
+
+          <!-- Audio přehrávač hymny -->
+          <div class="hymna-player">
+            <div class="hymna-player-title">🎵 Klubová hymna</div>
+            <h4>Hymna SKK Čtyřkoly</h4>
+            <p>Ta naše – originál, žádný cover. Přes dvacet let a stále nezapomenuta.</p>
+            <div class="audio-controls">
+              <!-- AUDIO PŘEHRÁVAČ – soubor 4kolaSKK.mp3 musí být ve stejné složce -->
+              <audio id="hymnaAudio" preload="metadata">
+                <source src="4kolaSKK.mp3" type="audio/mpeg" />
+                Váš prohlížeč nepodporuje přehrávání audia.
+              </audio>
+              <button class="play-btn" id="playBtn" aria-label="Přehrát hymnu">▶</button>
+              <div class="audio-bar" aria-hidden="true">
+                <div class="audio-progress" id="audioProgress"></div>
+              </div>
+              <span class="audio-time" id="audioTime">0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapa -->
+        <div class="fade-in-right">
+          <div class="kontakt-map">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=14.7097%2C49.8586%2C14.7297%2C49.8786&layer=mapnik&marker=49.868613%2C14.719742"
+              width="100%"
+              height="400"
+              style="border:none; border-radius:12px;"
+              title="Mapa obce Čtyřkoly"
+              loading="lazy">
+            </iframe>
+          </div>
+          <p style="text-align:center; color:rgba(255,255,255,0.35); font-size:0.8rem; margin-top:10px;">
+            Čtyřkoly, Středočeský kraj ·
+            <a href="https://www.openstreetmap.org/?mlat=49.868613&mlon=14.719742#map=14/49.868613/14.719742"
+               target="_blank" rel="noopener"
+               style="color:rgba(255,255,255,0.4); text-decoration: underline dotted;">
+              Zobrazit větší mapu
+            </a>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Členové klubu -->
+      <div class="member-cards">
+        <div class="member-card fade-in">
+          <img src="Pepa.png" alt="Pepa" class="member-photo" />
+          <div class="member-name">Pepa</div>
+          <div class="member-role">Předseda klubu</div>
+          <a href="mailto:neumann.josef@gmail.com" class="member-email">neumann.josef@gmail.com</a>
+        </div>
+        <div class="member-card fade-in" style="transition-delay:0.1s">
+          <img src="Roberto.png" alt="Roberto" class="member-photo" />
+          <div class="member-name">Roberto</div>
+          <div class="member-role">Náčelník</div>
+          <a href="mailto:nesporovi@seznam.cz" class="member-email">nesporovi@seznam.cz</a>
+        </div>
+        <div class="member-card fade-in" style="transition-delay:0.2s">
+          <img src="Lada.png" alt="Laďa" class="member-photo" />
+          <div class="member-name">Laďa</div>
+          <div class="member-role">Starosta</div>
+          <a href="mailto:vhorak@techniserv.cz" class="member-email">vhorak@techniserv.cz</a>
+        </div>
+        <div class="member-card fade-in" style="transition-delay:0.3s">
+          <img src="Benny.png" alt="Benny" class="member-photo" />
+          <div class="member-name">Benny</div>
+          <div class="member-role">Webloser</div>
+          <a href="mailto:rtepseneb@gmail.com" class="member-email">rtepseneb@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <p>
+        © 2025 <span>SKK Čtyřkoly</span> ·
+        Vyrobeno s 🚴 a velkou dávkou humoru ·
+        <a href="mailto:rtepseneb@gmail.com" style="color:rgba(255,255,255,0.45)">Benny | rtepseneb@gmail.com</a>
+      </p>
+    </footer>
+  </section>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+    'use strict';
+
+    /* -------------------------------------------
+       NAVBAR – scroll efekt + hamburger
+    ------------------------------------------- */
+    const navbar     = document.getElementById('navbar');
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Zavři menu po kliknutí na odkaz
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* -------------------------------------------
+       SMOOTH SCROLL pro všechny kotvy
+    ------------------------------------------- */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const offset = 68; // výška nav
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+
+    /* -------------------------------------------
+       INTERSECTION OBSERVER – fade-in animace
+    ------------------------------------------- */
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+      fadeObserver.observe(el);
+    });
+
+    /* -------------------------------------------
+       GALERIE – skrytí položek bez platné přípony
+       (ochrana před zobrazením adresářů jako fotek)
+    ------------------------------------------- */
+    const IMG_EXTS = /\.(jpg|jpeg|png|heic|gif|webp)$/i;
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const src = item.dataset.src || '';
+      if (!IMG_EXTS.test(src)) item.classList.add('hidden');
+    });
+
+    /* -------------------------------------------
+       GALERIE – filtrování
+    ------------------------------------------- */
+    const filterBtns  = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        galleryItems.forEach(item => {
+          if (filter === 'all' || item.dataset.album === filter) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    /* -------------------------------------------
+       LIGHTBOX
+    ------------------------------------------- */
+    const lightbox      = document.getElementById('lightbox');
+    const lightboxImg   = document.getElementById('lightboxImg');
+    const lightboxCap   = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev  = document.getElementById('lightboxPrev');
+    const lightboxNext  = document.getElementById('lightboxNext');
+
+    let currentIndex = 0;
+    let visibleItems = [];
+
+    function openLightbox(index) {
+      visibleItems = Array.from(document.querySelectorAll('.gallery-item:not(.hidden)'));
+      currentIndex = index;
+      showLightboxItem(currentIndex);
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showLightboxItem(idx) {
+      const item = visibleItems[idx];
+      if (!item) return;
+      lightboxImg.src = item.dataset.src || item.querySelector('img').src;
+      lightboxImg.alt = item.querySelector('img').alt;
+      lightboxCap.textContent = item.dataset.caption || '';
+    }
+
+    galleryItems.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        visibleItems = Array.from(document.querySelectorAll('.gallery-item:not(.hidden)'));
+        const visibleIndex = visibleItems.indexOf(item);
+        openLightbox(visibleIndex);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+
+    lightboxNext.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % visibleItems.length;
+      showLightboxItem(currentIndex);
+    });
+
+    lightboxPrev.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+      showLightboxItem(currentIndex);
+    });
+
+    // Klávesnice
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % visibleItems.length; showLightboxItem(currentIndex); }
+      if (e.key === 'ArrowLeft')  { currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length; showLightboxItem(currentIndex); }
+    });
+
+    // Kliknutí mimo obrázek zavře lightbox
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    /* -------------------------------------------
+       AUDIO přehrávač hymny
+    ------------------------------------------- */
+    const audio    = document.getElementById('hymnaAudio');
+    const playBtn  = document.getElementById('playBtn');
+    const progress = document.getElementById('audioProgress');
+    const timeDisp = document.getElementById('audioTime');
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+        playBtn.textContent = '⏸';
+        playBtn.setAttribute('aria-label', 'Pozastavit hymnu');
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        playBtn.setAttribute('aria-label', 'Přehrát hymnu');
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = pct + '%';
+      timeDisp.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+      playBtn.setAttribute('aria-label', 'Přehrát hymnu');
+      progress.style.width = '0%';
+      timeDisp.textContent = '0:00';
+    });
+
+    /* -------------------------------------------
+       4PM FORMULÁŘ + VÝSLEDKOVÁ LISTINA
+    ------------------------------------------- */
+
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtpb2x0wJLlwskFtwwUE6JrNngcouXjr_b3Bo8xh9WjcmmIx6UTISozKiLfmsHdO3uVQ/exec';
+
+    // URL pro čtení výsledků z Google Sheets (veřejný přístup)
+    const SHEET_ID   = '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw';
+    const SHEET_READ = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    const fourpmForm    = document.getElementById('fourpmForm');
+    const fourpmStatus  = document.getElementById('fourpmStatus');
+    const fourpmResults = document.getElementById('fourpmResults');
+    const fourpmRefresh = document.getElementById('fourpmRefresh');
+
+    // --- Odeslání formuláře ---
+    fourpmForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        jmeno:    fourpmForm.jmeno.value.trim(),
+        datum:    fourpmForm.datum.value,
+        cas:      fourpmForm.cas.value.trim(),
+        poznamka: fourpmForm.poznamka.value.trim()
+      };
+
+      if (!data.jmeno || !data.datum || !data.cas) {
+        fourpmStatus.textContent = 'Vyplňte prosím povinná pole.';
+        fourpmStatus.className   = 'form-status err';
+        return;
+      }
+
+      const submitBtn = fourpmForm.querySelector('button[type="submit"]');
+      submitBtn.disabled    = true;
+      submitBtn.textContent = 'Odesílám…';
+      fourpmStatus.textContent = '';
+      fourpmStatus.className   = 'form-status';
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode:   'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        fourpmStatus.textContent = '✅ Díky! Tvůj čas byl uložen.';
+        fourpmStatus.className   = 'form-status ok';
+        fourpmForm.reset();
+        setTimeout(loadResults, 1500);
+      } catch {
+        fourpmStatus.textContent = '❌ Něco se pokazilo, zkus to znovu.';
+        fourpmStatus.className   = 'form-status err';
+      } finally {
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Odeslat';
+      }
+    });
+
+    // --- Načítání výsledků ---
+    function parseTime(str) {
+      // Převede "1:45:30" nebo "1:45" na sekundy pro řazení
+      if (!str) return Infinity;
+      const parts = str.split(':').map(Number);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 3600 + parts[1] * 60;
+      return Infinity;
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      const d = new Date(str);
+      if (isNaN(d)) return str;
+      return d.toLocaleDateString('cs-CZ');
+    }
+
+    async function loadResults() {
+      fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>';
+      try {
+        const res  = await fetch(SHEET_READ + '&t=' + Date.now());
+        const text = await res.text();
+        // Google gviz vrací JSON obalený v callback "google.visualization.Query.setResponse(...)"
+        const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
+        const rows = json.table?.rows || [];
+
+        if (rows.length === 0) {
+          fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Zatím žádné výsledky. Buď první!</td></tr>';
+          return;
+        }
+
+        // Každý řádek: [jmeno, datum, cas, poznamka, timestamp]
+        const data = rows.map(r => ({
+          jmeno:    r.c[0]?.v || '',
+          datum:    r.c[1]?.v || '',
+          cas:      r.c[2]?.v || '',
+          poznamka: r.c[3]?.v || ''
+        }));
+
+        // Seřaď vzestupně podle času
+        data.sort((a, b) => parseTime(a.cas) - parseTime(b.cas));
+
+        const medals = ['🥇', '🥈', '🥉'];
+        fourpmResults.innerHTML = data.map((row, i) => `
+          <tr>
+            <td>${medals[i] || (i + 1) + '.'}</td>
+            <td>${escHtml(row.jmeno)}</td>
+            <td>${formatDate(escHtml(row.datum))}</td>
+            <td class="col-time">${escHtml(row.cas)}</td>
+            <td style="color:rgba(255,255,255,0.5); font-size:0.85rem;">${escHtml(row.poznamka)}</td>
+          </tr>
+        `).join('');
+
+      } catch {
+        fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Výsledky se nepodařilo načíst.</td></tr>';
+      }
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    fourpmRefresh.addEventListener('click', loadResults);
+
+    // Načti výsledky automaticky při načtení stránky
+    loadResults();
+
+    /* -------------------------------------------
+       COUNTDOWN – Čtyřkolský Papírák 2026
+       EDITUJ DATUM ZDE (rok, měsíc-1, den, hodina startu)
+    ------------------------------------------- */
+    const PAPIRAK_DATE = new Date(2026, 5, 27, 10, 30, 0); // 27.6.2026 10:30
+
+    const cdDays  = document.getElementById('cdDays');
+    const cdHours = document.getElementById('cdHours');
+    const cdMins  = document.getElementById('cdMins');
+    const cdSecs  = document.getElementById('cdSecs');
+    const cdWrap  = document.getElementById('papirakCountdown');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tickCountdown() {
+      const now  = new Date();
+      const diff = PAPIRAK_DATE - now;
+
+      if (diff <= 0) {
+        cdWrap.innerHTML = '<div class="countdown-done">🎉 Závod právě probíhá – nebo už proběhl. Výsledky brzy!</div>';
+        return;
+      }
+
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000)  / 60000);
+      const secs  = Math.floor((diff % 60000)    / 1000);
+
+      cdDays.textContent  = days;
+      cdHours.textContent = pad(hours);
+      cdMins.textContent  = pad(mins);
+      cdSecs.textContent  = pad(secs);
+    }
+
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+
+  </script>
+</body>
+</html>
