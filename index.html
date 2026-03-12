@@ -3004,7 +3004,7 @@
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
       <p>
-        © 2025 <span>SKK Čtyřkoly</span> ·
+        © 2026 <span>SKK Čtyřkoly</span> ·
         Vyrobeno s 🚴 a velkou dávkou humoru ·
         <a href="mailto:rtepseneb@gmail.com" style="color:rgba(255,255,255,0.45)">Benny | rtepseneb@gmail.com</a>
       </p>
@@ -3243,29 +3243,43 @@
     fourpmForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      if (!document.getElementById('jmeno').value || !document.getElementById('datum').value || !document.getElementById('cas').value) {
+      var jmeno    = document.getElementById('jmeno').value.trim();
+      var datum    = document.getElementById('datum').value.trim();
+      var cas      = document.getElementById('cas').value.trim();
+      var poznamka = document.getElementById('poznamka').value.trim();
+
+      if (!jmeno || !datum || !cas) {
         fourpmStatus.textContent = 'Vyplňte prosím povinná pole.';
         fourpmStatus.className   = 'form-status err';
         return;
       }
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', APPS_SCRIPT_URL);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({
-        jmeno:    document.getElementById('jmeno').value,
-        datum:    document.getElementById('datum').value,
-        cas:      document.getElementById('cas').value,
-        poznamka: document.getElementById('poznamka').value
-      }));
-      xhr.onload = function() {
-        alert('✅ Díky! Tvůj čas byl uložen.');
+      var submitBtn = fourpmForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Odesílám…';
+      fourpmStatus.textContent = '';
+
+      // Content-Type: text/plain vyhne se CORS preflight, no-cors obejde blokování
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ jmeno: jmeno, datum: datum, cas: cas, poznamka: poznamka })
+      })
+      .then(function() {
+        fourpmStatus.textContent = '✅ Díky! Tvůj čas byl uložen.';
+        fourpmStatus.className   = 'form-status ok';
         fourpmForm.reset();
-        setTimeout(loadResults, 1500);
-      };
-      xhr.onerror = function() {
-        alert('❌ Něco se pokazilo.');
-      };
+        setTimeout(loadResults, 2000);
+      })
+      .catch(function() {
+        fourpmStatus.textContent = '❌ Něco se pokazilo, zkus to znovu.';
+        fourpmStatus.className   = 'form-status err';
+      })
+      .finally(function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Odeslat';
+      });
     });
 
     // --- Načítání výsledků ---
