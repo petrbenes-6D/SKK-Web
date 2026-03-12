@@ -2999,7 +2999,7 @@
           </div>
         </div>
 
-        <!-- Mapa -->
+        <!-- Mapa + formulář vpravo -->
         <div class="fade-in-right">
           <div class="kontakt-map">
             <iframe
@@ -3019,6 +3019,31 @@
               Zobrazit větší mapu
             </a>
           </p>
+
+          <!-- Kontaktní formulář -->
+          <!-- FORMSPREE: zaregistruj se na formspree.io, vytvoř nový form,
+               zkopíruj endpoint URL a nahraď https://formspree.io/f/xyzabcde -->
+          <div class="kontakt-form-block">
+            <h3>Napište nám</h3>
+            <form id="kontaktForm" action="https://formspree.io/f/xyzabcde" method="POST">
+              <div class="kontakt-form-grid">
+                <div class="form-group">
+                  <label for="kf-jmeno">Jméno *</label>
+                  <input type="text" id="kf-jmeno" name="jmeno" required placeholder="Vaše jméno" />
+                </div>
+                <div class="form-group">
+                  <label for="kf-email">E-mail *</label>
+                  <input type="email" id="kf-email" name="email" required placeholder="vas@email.cz" />
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:14px;">
+                <label for="kf-zprava">Zpráva * <span id="kf-counter" style="color:rgba(255,255,255,0.35); font-weight:normal;">0/200 znaků</span></label>
+                <textarea id="kf-zprava" name="zprava" required maxlength="200" placeholder="Napiš cokoliv…"></textarea>
+              </div>
+              <button type="submit" class="btn btn-gold">Odeslat zprávu</button>
+              <div class="kontakt-form-status" id="kontaktFormStatus"></div>
+            </form>
+          </div>
         </div>
 
       </div>
@@ -3049,34 +3074,6 @@
           <div class="member-role">Webloser</div>
           <a href="mailto:rtepseneb@gmail.com" class="member-email">rtepseneb@gmail.com</a>
         </div>
-      </div>
-
-      <!-- Kontaktní formulář -->
-      <div class="kontakt-form-block fade-in">
-        <h3>✉️ Napiš nám zprávu</h3>
-        <p>Zpráva dorazí Pepovi a Bennymu. Odpovídáme.</p>
-        <form id="kontaktForm" novalidate>
-          <div class="kontakt-form-grid">
-            <div class="form-group">
-              <label for="kf-jmeno">Jméno *</label>
-              <input type="text" id="kf-jmeno" required placeholder="Vaše jméno" />
-            </div>
-            <div class="form-group">
-              <label for="kf-email">Váš e-mail *</label>
-              <input type="email" id="kf-email" required placeholder="vas@email.cz" />
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:14px;">
-            <label for="kf-predmet">Předmět *</label>
-            <input type="text" id="kf-predmet" required placeholder="O čem nám píšeš?" />
-          </div>
-          <div class="form-group" style="margin-bottom:14px;">
-            <label for="kf-zprava">Zpráva *</label>
-            <textarea id="kf-zprava" required placeholder="Napiš cokoliv…"></textarea>
-          </div>
-          <button type="submit" class="btn btn-gold">Odeslat zprávu</button>
-          <div class="kontakt-form-status" id="kontaktFormStatus"></div>
-        </form>
       </div>
 
     </div>
@@ -3456,46 +3453,42 @@
     loadResults();
 
     /* -------------------------------------------
-       KONTAKTNÍ FORMULÁŘ
+       KONTAKTNÍ FORMULÁŘ (Formspree)
     ------------------------------------------- */
-    const kontaktForm       = document.getElementById('kontaktForm');
-    const kontaktFormStatus = document.getElementById('kontaktFormStatus');
+    var kfZprava  = document.getElementById('kf-zprava');
+    var kfCounter = document.getElementById('kf-counter');
+
+    // Počítadlo znaků
+    kfZprava.addEventListener('input', function() {
+      kfCounter.textContent = kfZprava.value.length + '/200 znaků';
+    });
+
+    var kontaktForm       = document.getElementById('kontaktForm');
+    var kontaktFormStatus = document.getElementById('kontaktFormStatus');
 
     kontaktForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      var jmeno   = document.getElementById('kf-jmeno').value.trim();
-      var email   = document.getElementById('kf-email').value.trim();
-      var predmet = document.getElementById('kf-predmet').value.trim();
-      var zprava  = document.getElementById('kf-zprava').value.trim();
-
-      if (!jmeno || !email || !predmet || !zprava) {
-        kontaktFormStatus.textContent = 'Vyplňte prosím všechna pole.';
-        kontaktFormStatus.className   = 'kontakt-form-status err';
-        return;
-      }
-
+      var formData = new FormData(kontaktForm);
       var submitBtn = kontaktForm.querySelector('button[type="submit"]');
       submitBtn.disabled    = true;
       submitBtn.textContent = 'Odesílám…';
       kontaktFormStatus.textContent = '';
 
-      fetch(APPS_SCRIPT_URL, {
+      fetch(kontaktForm.action, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({
-          type:    'kontakt',
-          jmeno:   jmeno,
-          email:   email,
-          predmet: predmet,
-          zprava:  zprava
-        })
+        body: formData,
+        headers: { 'Accept': 'application/json' }
       })
-      .then(function() {
-        kontaktFormStatus.textContent = '✅ Zpráva odeslána! Ozveme se.';
-        kontaktFormStatus.className   = 'kontakt-form-status ok';
-        kontaktForm.reset();
+      .then(function(res) {
+        if (res.ok) {
+          kontaktFormStatus.textContent = '✅ Zpráva odeslána! Brzy se ozveme.';
+          kontaktFormStatus.className   = 'kontakt-form-status ok';
+          kontaktForm.reset();
+          kfCounter.textContent = '0/200 znaků';
+        } else {
+          throw new Error();
+        }
       })
       .catch(function() {
         kontaktFormStatus.textContent = '❌ Něco se pokazilo, zkus to znovu.';
