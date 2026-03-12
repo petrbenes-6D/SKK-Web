@@ -908,6 +908,8 @@
       border-top: 1px solid rgba(245,196,0,0.2);
       padding-top: 32px;
       margin-top: 32px;
+      position: relative;
+      z-index: 100;
     }
 
     .fourpm-form-block h4 {
@@ -937,17 +939,17 @@
 
     .form-group input,
     .form-group textarea {
-      background: rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 8px;
       padding: 11px 14px;
-      color: var(--white);
+      color: white;
       font-family: var(--font-body);
       font-size: 0.95rem;
       transition: border-color 0.2s;
       outline: none;
       position: relative;
-      z-index: 10;
+      z-index: 101;
       pointer-events: auto;
     }
 
@@ -1924,7 +1926,7 @@
             Jsme hrdí na to, že u nás nezáleží na výsledcích, ale na přístupu. Výborný výkon oceníme. Ale ještě víc oceníme toho, kdo dojede poslední, ale s úsměvem. Přesně takový sport nás baví.
           </p>
           <p>
-            Sportujeme, pořádáme plesy, Silvestra, turnaje, výlety a leccos mezi tím. Vlajková akce – triatlon <strong>Čtyřkolský papírák</strong> – jehož pořádání jsme převzali do Osady Montana, je každoroční důkaz, že nás v okolních obcích baví být spolu a nic a nikdo nás nezastaví. Ani déšť, ani vítr, ani pozdní příchod na start 🙂
+            Sportujeme, pořádáme plesy, Silvestra, turnaje, výlety a leccos mezi tím. Vlajková akce – triatlon <strong>Čtyřkolský papírák</strong> – jehož pořádání jsme převzali od Osady Montana, je každoroční důkaz, že nás v okolních obcích baví být spolu a nic a nikdo nás nezastaví. Ani déšť, ani vítr, ani pozdní příchod na start 🙂
           </p>
 
           <!-- Hymna bar -->
@@ -3293,6 +3295,24 @@
       return d.toLocaleDateString('cs-CZ');
     }
 
+    function formatCas(cell) {
+      if (!cell) return '';
+      // gviz vrací čas jako objekt { v: 'Date(1899,11,30,h,m,s)', f: '...' }
+      if (cell.v !== undefined) {
+        const raw = String(cell.v);
+        if (raw.startsWith('Date(')) {
+          const parts = raw.replace('Date(', '').replace(')', '').split(',').map(Number);
+          // parts: [year, month, day, hours, minutes, seconds]
+          const h = parts[3] || 0;
+          const m = String(parts[4] || 0).padStart(2, '0');
+          const s = String(parts[5] || 0).padStart(2, '0');
+          return h + ':' + m + ':' + s;
+        }
+        return String(cell.v);
+      }
+      return String(cell);
+    }
+
     async function loadResults() {
       fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>';
       try {
@@ -3311,7 +3331,7 @@
         const data = rows.map(r => ({
           jmeno:    r.c[0]?.v || '',
           datum:    r.c[1]?.v || '',
-          cas:      r.c[2]?.v || '',
+          cas:      formatCas(r.c[2]),
           poznamka: r.c[3]?.v || ''
         }));
 
