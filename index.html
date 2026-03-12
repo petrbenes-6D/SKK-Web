@@ -300,6 +300,7 @@
       background: url('zada.JPG') center center / cover no-repeat;
       transform: scale(1.04);
       transition: transform 8s ease;
+      pointer-events: none;
     }
 
     #hero:hover .hero-bg { transform: scale(1); }
@@ -1550,7 +1551,7 @@
       gap: 20px;
       margin-top: 60px;
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
 
     .member-card {
@@ -1641,7 +1642,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 60px;
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
 
     #kontakt .section-label { color: var(--gold); }
@@ -3239,7 +3240,7 @@
     const fourpmRefresh = document.getElementById('fourpmRefresh');
 
     // --- Odeslání formuláře ---
-    fourpmForm.addEventListener('submit', (e) => {
+    fourpmForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
       if (!document.getElementById('jmeno').value || !document.getElementById('datum').value || !document.getElementById('cas').value) {
@@ -3248,25 +3249,23 @@
         return;
       }
 
-      fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          jmeno:    document.getElementById('jmeno').value,
-          datum:    document.getElementById('datum').value,
-          cas:      document.getElementById('cas').value,
-          poznamka: document.getElementById('poznamka').value
-        })
-      })
-      .then(() => {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', APPS_SCRIPT_URL);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+        jmeno:    document.getElementById('jmeno').value,
+        datum:    document.getElementById('datum').value,
+        cas:      document.getElementById('cas').value,
+        poznamka: document.getElementById('poznamka').value
+      }));
+      xhr.onload = function() {
         alert('✅ Díky! Tvůj čas byl uložen.');
         fourpmForm.reset();
         setTimeout(loadResults, 1500);
-      })
-      .catch(() => {
-        alert('❌ Něco se pokazilo, zkus to znovu.');
-      });
+      };
+      xhr.onerror = function() {
+        alert('❌ Něco se pokazilo.');
+      };
     });
 
     // --- Načítání výsledků ---
@@ -3279,17 +3278,15 @@
       return Infinity;
     }
 
-    function formatDate(val) {
-      if (!val) return '';
-      // gviz vrací datum jako "Date(yyyy,m,d)" – převedeme na normální datum
-      if (typeof val === 'string' && val.startsWith('Date(')) {
-        const parts = val.replace('Date(', '').replace(')', '').split(',').map(Number);
-        const d = new Date(parts[0], parts[1], parts[2]);
-        return d.toLocaleDateString('cs-CZ');
+    function formatDatum(cell) {
+      if (!cell || cell.v === null || cell.v === undefined) return '';
+      // gviz vrací datum jako číslo (počet dní od 30.12.1899)
+      if (typeof cell.v === 'number') {
+        var d = new Date(Math.round((cell.v - 25569) * 86400 * 1000));
+        return d.getUTCDate() + '. ' + (d.getUTCMonth() + 1) + '. ' + d.getUTCFullYear();
       }
-      const d = new Date(val);
-      if (isNaN(d)) return String(val);
-      return d.toLocaleDateString('cs-CZ');
+      // Záloha: použij formátovanou hodnotu nebo raw
+      return cell.f || String(cell.v);
     }
 
     function formatCas(cell) {
@@ -3327,7 +3324,7 @@
         // Každý řádek: [jmeno, datum, cas, poznamka, timestamp]
         const data = rows.map(r => ({
           jmeno:    r.c[0]?.v || '',
-          datum:    r.c[1]?.v || '',
+          datum:    formatDatum(r.c[1]),
           cas:      formatCas(r.c[2]),
           poznamka: r.c[3]?.v || ''
         }));
