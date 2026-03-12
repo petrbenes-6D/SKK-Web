@@ -2799,7 +2799,7 @@
                 <div class="rb-medal">🥉</div>
                 <div class="rb-name">Laďa Horák (1974)</div>
                 <div class="rb-time">3:50:09</div>
-                <div class="rb-detail">1. místo ve věkové kategorii<br>1104. místo celkově</div>
+                <div class="rb-detail">290. místo ve věkové kategorii<br>1104. místo celkově</div>
               </div>
             </div>
 
@@ -3080,13 +3080,26 @@
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
-        galleryItems.forEach(item => {
-          if (filter === 'all' || item.dataset.album === filter) {
-            item.classList.remove('hidden');
-          } else {
-            item.classList.add('hidden');
-          }
-        });
+        if (filter === 'all') {
+          const albumCount = {};
+          galleryItems.forEach(item => {
+            const album = item.dataset.album;
+            albumCount[album] = (albumCount[album] || 0) + 1;
+            if (albumCount[album] <= 5) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        } else {
+          galleryItems.forEach(item => {
+            if (item.dataset.album === filter) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        }
       });
     });
 
@@ -3237,9 +3250,14 @@
       try {
         await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
-          mode:   'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          mode: 'no-cors',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            jmeno:    data.jmeno,
+            datum:    data.datum,
+            cas:      data.cas,
+            poznamka: data.poznamka
+          })
         });
         fourpmStatus.textContent = '✅ Díky! Tvůj čas byl uložen.';
         fourpmStatus.className   = 'form-status ok';
@@ -3264,10 +3282,16 @@
       return Infinity;
     }
 
-    function formatDate(str) {
-      if (!str) return '';
-      const d = new Date(str);
-      if (isNaN(d)) return str;
+    function formatDate(val) {
+      if (!val) return '';
+      // gviz vrací datum jako "Date(yyyy,m,d)" – převedeme na normální datum
+      if (typeof val === 'string' && val.startsWith('Date(')) {
+        const parts = val.replace('Date(', '').replace(')', '').split(',').map(Number);
+        const d = new Date(parts[0], parts[1], parts[2]);
+        return d.toLocaleDateString('cs-CZ');
+      }
+      const d = new Date(val);
+      if (isNaN(d)) return String(val);
       return d.toLocaleDateString('cs-CZ');
     }
 
@@ -3301,7 +3325,7 @@
           <tr>
             <td>${medals[i] || (i + 1) + '.'}</td>
             <td>${escHtml(row.jmeno)}</td>
-            <td>${formatDate(escHtml(row.datum))}</td>
+            <td>${escHtml(formatDate(row.datum))}</td>
             <td class="col-time">${escHtml(row.cas)}</td>
             <td style="color:rgba(255,255,255,0.5); font-size:0.85rem;">${escHtml(row.poznamka)}</td>
           </tr>
