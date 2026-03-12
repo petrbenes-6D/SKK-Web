@@ -3163,36 +3163,34 @@
     /* -------------------------------------------
        GALERIE – filtrování
     ------------------------------------------- */
-    const filterBtns  = document.querySelectorAll('.filter-btn');
+    const filterBtns   = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+    function applyFilter(filter) {
+      if (filter === 'all') {
+        const albumCount = {};
+        galleryItems.forEach(function(item) {
+          const album = item.dataset.album;
+          albumCount[album] = (albumCount[album] || 0) + 1;
+          item.style.display = albumCount[album] <= 5 ? '' : 'none';
+        });
+      } else {
+        galleryItems.forEach(function(item) {
+          item.style.display = item.dataset.album === filter ? '' : 'none';
+        });
+      }
+    }
+
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        if (filter === 'all') {
-          const albumCount = {};
-          galleryItems.forEach(item => {
-            const album = item.dataset.album;
-            albumCount[album] = (albumCount[album] || 0) + 1;
-            if (albumCount[album] <= 5) {
-              item.classList.remove('hidden');
-            } else {
-              item.classList.add('hidden');
-            }
-          });
-        } else {
-          galleryItems.forEach(item => {
-            if (item.dataset.album === filter) {
-              item.classList.remove('hidden');
-            } else {
-              item.classList.add('hidden');
-            }
-          });
-        }
+        applyFilter(btn.dataset.filter);
       });
     });
+
+    // Aplikuj filtr "Vše" hned při načtení stránky
+    applyFilter('all');
 
     /* -------------------------------------------
        LIGHTBOX
