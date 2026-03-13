@@ -2032,7 +2032,7 @@
         <div class="feature-box fade-in" style="transition-delay: 0.15s">
           <div class="feat-icon">🤝</div>
           <h3>Komunita</h3>
-          <p>Z Čtyřkol i okolí. Mezi námi jsou olympijci, hobíci i ti, kteří jezdí „pro zdraví". Každý má tady své místo a svůj příběh.</p>
+          <p>Z Čtyřkol i okolí. Mezi námi jsou občas i ambiciózní závodníci, ale většina jsme hobíci, kteří jezdí „pro zdraví". Každý má tady své místo a svůj příběh.</p>
         </div>
         <!-- FEATURE BOX 3 – ZÁBAVA -->
         <div class="feature-box fade-in" style="transition-delay: 0.3s">
@@ -2168,33 +2168,48 @@
           </div>
         </div>
 
+        <!-- AKTUALIZUJ GOOGLE APPS SCRIPT na script.google.com:
+        function doGet(e) {
+          var sheet = SpreadsheetApp.openById(
+            '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw'
+          ).getActiveSheet();
+          sheet.appendRow([
+            e.parameter.jmeno,
+            e.parameter.datum,
+            e.parameter.cas,
+            e.parameter.poznamka,
+            new Date()
+          ]);
+          return ContentService.createTextOutput('OK');
+        }
+        Nasaď znovu jako Web App - Execute as: Me, Access: Anyone
+        -->
+
         <!-- Formulář sdílení času -->
         <div class="fourpm-form-block">
           <h4>📋 Sdílejte svůj čas</h4>
-          <form id="fourpmForm" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="jmeno">Jméno *</label>
-                <input type="text" id="jmeno" name="jmeno" required placeholder="Vaše jméno" />
-              </div>
-              <div class="form-group">
-                <label for="datum">Datum běhu *</label>
-                <input type="text" id="datum" name="datum" required placeholder="DD.MM.RRRR" />
-              </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jmeno">Jméno *</label>
+              <input type="text" id="jmeno" placeholder="Vaše jméno" />
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="cas">Čas *</label>
-                <input type="text" id="cas" name="cas" required placeholder="např. 1:45:30" />
-              </div>
-              <div class="form-group">
-                <label for="poznamka">Poznámka</label>
-                <textarea id="poznamka" name="poznamka" placeholder="Jak se vám trasa líbila?"></textarea>
-              </div>
+            <div class="form-group">
+              <label for="datum">Datum běhu *</label>
+              <input type="text" id="datum" placeholder="DD.MM.RRRR" />
             </div>
-            <button type="submit" class="btn btn-gold" style="margin-top:4px;">Odeslat</button>
-            <div class="form-status" id="fourpmStatus"></div>
-          </form>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cas">Čas *</label>
+              <input type="text" id="cas" placeholder="např. 1:45:30" />
+            </div>
+            <div class="form-group">
+              <label for="poznamka">Poznámka</label>
+              <textarea id="poznamka" placeholder="Jak se vám trasa líbila?"></textarea>
+            </div>
+          </div>
+          <button class="btn btn-gold" style="margin-top:4px;" onclick="odeslat4PM()">Odeslat</button>
+          <div class="form-status" id="fourpmStatus"></div>
         </div>
 
         <!-- Výsledková listina -->
@@ -2218,6 +2233,13 @@
                 <tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>
               </tbody>
             </table>
+          </div>
+          <div style="text-align:right; margin-top:12px;">
+            <a href="https://docs.google.com/spreadsheets/d/1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw"
+               target="_blank" rel="noopener"
+               class="btn-refresh" style="text-decoration:none;">
+              📊 Zobrazit všechny výsledky
+            </a>
           </div>
         </div>
 
@@ -3303,138 +3325,66 @@
        4PM FORMULÁŘ + VÝSLEDKOVÁ LISTINA
     ------------------------------------------- */
 
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtpb2x0wJLlwskFtwwUE6JrNngcouXjr_b3Bo8xh9WjcmmIx6UTISozKiLfmsHdO3uVQ/exec';
+    var SHEET_ID   = '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw';
+    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtpb2x0wJLlwskFtwwUE6JrNngcouXjr_b3Bo8xh9WjcmmIx6UTISozKiLfmsHdO3uVQ/exec';
+    var SHEET_READ = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
 
-    // URL pro čtení výsledků z Google Sheets (veřejný přístup)
-    const SHEET_ID   = '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw';
-    const SHEET_READ = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+    var fourpmResults = document.getElementById('fourpmResults');
+    var fourpmRefresh = document.getElementById('fourpmRefresh');
 
-    const fourpmForm    = document.getElementById('fourpmForm');
-    const fourpmStatus  = document.getElementById('fourpmStatus');
-    const fourpmResults = document.getElementById('fourpmResults');
-    const fourpmRefresh = document.getElementById('fourpmRefresh');
-
-    // --- Odeslání formuláře ---
-    fourpmForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      var jmeno    = document.getElementById('jmeno').value.trim();
-      var datum    = document.getElementById('datum').value.trim();
-      var cas      = document.getElementById('cas').value.trim();
-      var poznamka = document.getElementById('poznamka').value.trim();
+    // --- Odeslání formuláře přes Image ping (obchází CORS) ---
+    function odeslat4PM() {
+      var jmeno    = document.getElementById('jmeno').value;
+      var datum    = document.getElementById('datum').value;
+      var cas      = document.getElementById('cas').value;
+      var poznamka = document.getElementById('poznamka').value;
 
       if (!jmeno || !datum || !cas) {
-        fourpmStatus.textContent = 'Vyplňte prosím povinná pole.';
-        fourpmStatus.className   = 'form-status err';
+        alert('Vyplňte prosím jméno, datum a čas.');
         return;
       }
 
-      var submitBtn = fourpmForm.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Odesílám…';
-      fourpmStatus.textContent = '';
+      var img = new Image();
+      img.src = APPS_SCRIPT_URL +
+                '?jmeno='    + encodeURIComponent(jmeno) +
+                '&datum='    + encodeURIComponent(datum) +
+                '&cas='      + encodeURIComponent(cas) +
+                '&poznamka=' + encodeURIComponent(poznamka);
 
-      // Content-Type: text/plain vyhne se CORS preflight, no-cors obejde blokování
-      fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ jmeno: jmeno, datum: datum, cas: cas, poznamka: poznamka })
-      })
-      .then(function() {
-        fourpmStatus.textContent = '✅ Díky! Tvůj čas byl uložen.';
-        fourpmStatus.className   = 'form-status ok';
-        fourpmForm.reset();
-        setTimeout(loadResults, 2000);
-      })
-      .catch(function() {
-        fourpmStatus.textContent = '❌ Něco se pokazilo, zkus to znovu.';
-        fourpmStatus.className   = 'form-status err';
-      })
-      .finally(function() {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Odeslat';
-      });
-    });
-
-    // --- Načítání výsledků ---
-    function parseTime(str) {
-      // Převede "1:45:30" nebo "1:45" na sekundy pro řazení
-      if (!str) return Infinity;
-      const parts = str.split(':').map(Number);
-      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-      if (parts.length === 2) return parts[0] * 3600 + parts[1] * 60;
-      return Infinity;
+      img.onload = img.onerror = function() {
+        alert('✅ Díky! Tvůj čas byl uložen.');
+        document.getElementById('jmeno').value    = '';
+        document.getElementById('datum').value    = '';
+        document.getElementById('cas').value      = '';
+        document.getElementById('poznamka').value = '';
+        setTimeout(nactiVysledky, 1500);
+      };
     }
 
+    // --- Načítání výsledků ---
     function formatDatum(cell) {
       if (!cell || cell.v === null || cell.v === undefined) return '';
-      // gviz vrací datum jako číslo (počet dní od 30.12.1899)
       if (typeof cell.v === 'number') {
         var d = new Date(Math.round((cell.v - 25569) * 86400 * 1000));
         return d.getUTCDate() + '. ' + (d.getUTCMonth() + 1) + '. ' + d.getUTCFullYear();
       }
-      // Záloha: použij formátovanou hodnotu nebo raw
       return cell.f || String(cell.v);
     }
 
     function formatCas(cell) {
       if (!cell) return '';
-      // gviz vrací čas jako objekt { v: 'Date(1899,11,30,h,m,s)', f: '...' }
       if (cell.v !== undefined) {
-        const raw = String(cell.v);
+        var raw = String(cell.v);
         if (raw.startsWith('Date(')) {
-          const parts = raw.replace('Date(', '').replace(')', '').split(',').map(Number);
-          // parts: [year, month, day, hours, minutes, seconds]
-          const h = parts[3] || 0;
-          const m = String(parts[4] || 0).padStart(2, '0');
-          const s = String(parts[5] || 0).padStart(2, '0');
+          var parts = raw.replace('Date(', '').replace(')', '').split(',').map(Number);
+          var h = parts[3] || 0;
+          var m = String(parts[4] || 0).padStart(2, '0');
+          var s = String(parts[5] || 0).padStart(2, '0');
           return h + ':' + m + ':' + s;
         }
         return String(cell.v);
       }
       return String(cell);
-    }
-
-    async function loadResults() {
-      fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>';
-      try {
-        const res  = await fetch(SHEET_READ + '&t=' + Date.now());
-        const text = await res.text();
-        // Google gviz vrací JSON obalený v callback "google.visualization.Query.setResponse(...)"
-        const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
-        const rows = json.table?.rows || [];
-
-        if (rows.length === 0) {
-          fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Zatím žádné výsledky. Buď první!</td></tr>';
-          return;
-        }
-
-        // Každý řádek: [jmeno, datum, cas, poznamka, timestamp]
-        const data = rows.map(r => ({
-          jmeno:    r.c[0]?.v || '',
-          datum:    formatDatum(r.c[1]),
-          cas:      formatCas(r.c[2]),
-          poznamka: r.c[3]?.v || ''
-        }));
-
-        // Seřaď vzestupně podle času
-        data.sort((a, b) => parseTime(a.cas) - parseTime(b.cas));
-
-        const medals = ['🥇', '🥈', '🥉'];
-        fourpmResults.innerHTML = data.map((row, i) => `
-          <tr>
-            <td>${medals[i] || (i + 1) + '.'}</td>
-            <td>${escHtml(row.jmeno)}</td>
-            <td>${escHtml(row.datum)}</td>
-            <td class="col-time">${escHtml(row.cas)}</td>
-            <td style="color:rgba(255,255,255,0.5); font-size:0.85rem;">${escHtml(row.poznamka)}</td>
-          </tr>
-        `).join('');
-
-      } catch {
-        fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Výsledky se nepodařilo načíst.</td></tr>';
-      }
     }
 
     function escHtml(str) {
@@ -3445,10 +3395,51 @@
         .replace(/"/g, '&quot;');
     }
 
-    fourpmRefresh.addEventListener('click', loadResults);
+    function nactiVysledky() {
+      fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Načítám výsledky…</td></tr>';
+      fetch(SHEET_READ + '&t=' + Date.now())
+        .then(function(res) { return res.text(); })
+        .then(function(text) {
+          var json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
+          var rows = (json.table && json.table.rows) || [];
 
-    // Načti výsledky automaticky při načtení stránky
-    loadResults();
+          if (rows.length === 0) {
+            fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Zatím žádné výsledky. Buď první!</td></tr>';
+            return;
+          }
+
+          // Každý řádek: [jmeno, datum, cas, poznamka, timestamp(E)]
+          var data = rows.map(function(r) {
+            return {
+              jmeno:    r.c[0] ? (r.c[0].v || '') : '',
+              datum:    formatDatum(r.c[1]),
+              cas:      formatCas(r.c[2]),
+              poznamka: r.c[3] ? (r.c[3].v || '') : '',
+              ts:       r.c[4] ? (r.c[4].v || 0) : 0   // sloupec E = čas zápisu
+            };
+          });
+
+          // Seřaď sestupně podle časové značky (nejnovější nahoře), vezmi 5
+          data.sort(function(a, b) { return b.ts - a.ts; });
+          data = data.slice(0, 5);
+
+          fourpmResults.innerHTML = data.map(function(row, i) {
+            return '<tr>' +
+              '<td>' + (i + 1) + '.</td>' +
+              '<td>' + escHtml(row.jmeno) + '</td>' +
+              '<td>' + escHtml(row.datum) + '</td>' +
+              '<td class="col-time">' + escHtml(row.cas) + '</td>' +
+              '<td style="color:rgba(255,255,255,0.5);font-size:0.85rem;">' + escHtml(row.poznamka) + '</td>' +
+              '</tr>';
+          }).join('');
+        })
+        .catch(function() {
+          fourpmResults.innerHTML = '<tr><td colspan="5" class="results-loading">Výsledky se nepodařilo načíst.</td></tr>';
+        });
+    }
+
+    fourpmRefresh.addEventListener('click', nactiVysledky);
+    nactiVysledky();
 
     /* -------------------------------------------
        KONTAKTNÍ FORMULÁŘ (Formspree)
