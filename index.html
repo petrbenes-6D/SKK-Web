@@ -3498,21 +3498,25 @@
         return;
       }
 
-      var img = new Image();
-      img.src = APPS_SCRIPT_URL +
+      var url = APPS_SCRIPT_URL +
                 '?jmeno='    + encodeURIComponent(jmeno) +
                 '&datum='    + encodeURIComponent(datum) +
                 '&cas='      + encodeURIComponent(cas) +
                 '&poznamka=' + encodeURIComponent(poznamka);
 
-      img.onload = img.onerror = function() {
-        alert('✅ Díky! Tvůj čas byl uložen.');
-        document.getElementById('jmeno').value    = '';
-        document.getElementById('datum').value    = '';
-        document.getElementById('cas').value      = '';
-        document.getElementById('poznamka').value = '';
-        setTimeout(nactiVysledky, 1500);
-      };
+      fetch(url)
+        .then(function(res) { return res.text(); })
+        .then(function() {
+          alert('✅ Díky! Tvůj čas byl uložen.');
+          document.getElementById('jmeno').value    = '';
+          document.getElementById('datum').value    = '';
+          document.getElementById('cas').value      = '';
+          document.getElementById('poznamka').value = '';
+          setTimeout(nactiVysledky, 1500);
+        })
+        .catch(function(err) {
+          alert('❌ Nepodařilo se uložit: ' + err.message);
+        });
     }
 
     // --- Načítání výsledků ---
