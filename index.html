@@ -3481,7 +3481,7 @@
     ------------------------------------------- */
 
     var SHEET_ID   = '1WnBujMUWmxan297Fs3kksUHytzEl5z_zrgrrTmhpnuw';
-    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtpb2x0wJLlwskFtwwUE6JrNngcouXjr_b3Bo8xh9WjcmmIx6UTISozKiLfmsHdO3uVQ/exec';
+    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtsJpUMWA6pse868H4bZqKLxGsWXmtdthRtGbBmlt0yK8VZio8fwxzXlIfQirC1f2T5g/exec';
     var SHEET_READ = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
 
     var fourpmResults = document.getElementById('fourpmResults');
@@ -3499,34 +3499,24 @@
         return;
       }
 
-      // Skrytý form submission do iframe – obchází CORS úplně
-      var form = document.createElement('form');
-      form.method = 'GET';
-      form.action = APPS_SCRIPT_URL;
-      form.target = 'fourpm_iframe';
+      var url = APPS_SCRIPT_URL +
+        '?jmeno='    + encodeURIComponent(jmeno) +
+        '&datum='    + encodeURIComponent(datum) +
+        '&cas='      + encodeURIComponent(cas) +
+        '&poznamka=' + encodeURIComponent(poznamka);
 
-      var fields = { jmeno: jmeno, datum: datum, cas: cas, poznamka: poznamka };
-      Object.keys(fields).forEach(function(key) {
-        var input = document.createElement('input');
-        input.type  = 'hidden';
-        input.name  = key;
-        input.value = fields[key];
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      // Po 2 sekundách zobraz potvrzení (response jde do skrytého iframe)
-      setTimeout(function() {
-        alert('✅ Díky! Tvůj čas byl uložen.');
-        document.getElementById('jmeno').value    = '';
-        document.getElementById('datum').value    = '';
-        document.getElementById('cas').value      = '';
-        document.getElementById('poznamka').value = '';
-        setTimeout(nactiVysledky, 1000);
-      }, 2000);
+      fetch(url, { method: 'GET', mode: 'no-cors' })
+        .then(function() {
+          alert('Výsledek byl úspěšně odeslán!');
+          document.getElementById('jmeno').value    = '';
+          document.getElementById('datum').value    = '';
+          document.getElementById('cas').value      = '';
+          document.getElementById('poznamka').value = '';
+          setTimeout(nactiVysledky, 1500);
+        })
+        .catch(function() {
+          alert('Chyba při odesílání.');
+        });
     }
 
     // --- Načítání výsledků ---
