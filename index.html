@@ -1547,7 +1547,7 @@
     ============================================= */
     .member-cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 20px;
       margin-top: 60px;
       position: relative;
@@ -1614,6 +1614,73 @@
 
     @media (max-width: 480px) {
       .member-cards { grid-template-columns: 1fr; }
+    }
+
+    /* Sekce všichni členové */
+    .members-section-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin: 60px 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .member-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .member-list-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(43,126,193,0.25);
+      border-radius: 12px;
+      padding: 16px 10px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .member-list-card:hover {
+      background: rgba(43,126,193,0.12);
+      border-color: rgba(43,126,193,0.5);
+      transform: translateY(-2px);
+    }
+
+    .member-list-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(43,126,193,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .member-list-name {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      font-family: var(--font-head);
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 900px) {
+      .member-list { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .member-list { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 400px) {
+      .member-list { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* =============================================
@@ -3248,9 +3315,38 @@
         <div class="member-card fade-in" style="transition-delay:0.3s">
           <img src="Benny.png" alt="Benny" class="member-photo" />
           <div class="member-name">Benny</div>
-          <div class="member-role">Webloser</div>
+          <div class="member-role">Webmaster / Webloser</div>
           <a href="https://mail.google.com/mail/?view=cm&to=rtepseneb@gmail.com" target="_blank" rel="noopener" class="member-email">rtepseneb@gmail.com</a>
         </div>
+        <div class="member-card fade-in" style="transition-delay:0.4s">
+          <img src="img/Mara.png" alt="Mára" class="member-photo" />
+          <div class="member-name">Mára</div>
+          <div class="member-role">Fotograf</div>
+          <a href="https://mail.google.com/mail/?view=cm&to=matustikm@yahoo.com" target="_blank" rel="noopener" class="member-email">matustikm@yahoo.com</a>
+        </div>
+      </div>
+
+      <!-- Členové SKK -->
+      <div class="members-section-title">Členové SKK</div>
+      <div class="member-list">
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Kristián Matuštík</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Matěj Beneš</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Daniel Horák</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Vítek Matuštík</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Monika Horáková</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Anna Benešová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Tomáš Toman</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Vašek Vít</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Tom Fiala</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Jack Kalina</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Linda Benešová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Klára Benešová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Šárka Neumannová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Oli Nešporová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Vanesa Nešporová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Jana Neumannová</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Jana Tupá</div></div>
+        <div class="member-list-card fade-in"><div class="member-list-avatar">👤</div><div class="member-list-name">Marek Tupý</div></div>
       </div>
 
     </div>
