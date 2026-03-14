@@ -1965,6 +1965,36 @@
 <iframe name="fourpm_iframe" style="display:none;" aria-hidden="true"></iframe>
 
   <!-- =============================================
+       FLASH BANNER
+  ============================================= -->
+  <div id="flashBanner" role="alert" style="
+    background: #2B7EC1;
+    color: #fff;
+    text-align: center;
+    padding: 12px 48px;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    position: relative;
+    z-index: 9999;
+  ">
+    🚴 POZOR — tuto neděli společná vyjížďka na silničkách! Sraz v 9:00 u jezu ve Lštění. Všichni vítáni!
+    <button onclick="document.getElementById('flashBanner').style.display='none'" aria-label="Zavřít oznámení" style="
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    ">✕</button>
+  </div>
+
+  <!-- =============================================
        NAVIGACE
   ============================================= -->
   <nav id="navbar" role="navigation" aria-label="Hlavní navigace">
