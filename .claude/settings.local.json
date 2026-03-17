@@ -6,7 +6,8 @@
       "Bash(git push:*)",
       "Bash(git revert:*)",
       "Bash(ls:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(cd:*)"
     ]
   }
 }
