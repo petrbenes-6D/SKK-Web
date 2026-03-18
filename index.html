@@ -1959,6 +1959,43 @@
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .hero-title { letter-spacing: 3px; }
     }
+    /* =============================================
+       LIKE BUTTON
+    ============================================= */
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 24px;
+      padding: 9px 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .like-btn:hover {
+      background: rgba(255,255,255,0.13);
+      border-color: rgba(255,80,80,0.5);
+      color: #fff;
+    }
+    .like-btn.liked {
+      background: rgba(220,50,50,0.15);
+      border-color: rgba(220,50,50,0.5);
+      color: #ff6b6b;
+    }
+    .like-btn .like-heart {
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+    .like-btn.liked .like-heart {
+      transform: scale(1.25);
+    }
+
   </style>
 </head>
 <body>
@@ -2855,7 +2892,7 @@
         <!-- ============================================================
              PŘÍSPĚVEK: Birkebeinerrennet 2026 – závěrečná zpráva – březen 2026
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="birken2026">
           <div class="blog-img">
             <img src="img/birken3.jpg" alt="SKK Čtyřkoly v cíli Birkebeinerrennet 2026 – skupinová fotka" loading="lazy" />
             <span class="blog-tag">Závody</span>
@@ -2901,14 +2938,14 @@
               Velké poděkování týmu SOSE (Sokol Senohraby), který nás tentokrát vzal pod svá křídla. Zejména díky nim jsme prožili nezapomenutelný týden. Zvláštní dík patří Honzovi a Lucce Šťastným — také ze Čtyřkol — bez nich by to nebylo ono. Díky, kamarádi!
             </p>
 
-
+            <button class="like-btn" data-id="birken2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
         <!-- ============================================================
              PŘÍSPĚVEK: Konopišťský půlmaraton 2026 – březen 2026
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="konopiste2026">
           <div class="blog-img">
             <img src="Pepakono.jpg" alt="Pepa Neumann – Konopišťský půlmaraton 2026" loading="lazy" />
             <span class="blog-tag">Závody</span>
@@ -2933,13 +2970,15 @@
             <p>
               Pepa tentokrát startoval v barvách TT ASTRA Konopiště. Kdyby běžel pod SKK čtyřkolskou vlajkou, tak si možná celkově šáhnul na bednu. 😄
             </p>
+
+            <button class="like-btn" data-id="konopiste2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
         <!-- ============================================================
              PŘÍSPĚVEK: Birkebeinerrennet 2026 – březen 2026
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="birken2026preview">
           <div class="blog-img">
             <img src="Birken.jpeg" alt="Birkebeinerrennet 2026" loading="lazy" />
             <span class="blog-tag">Závody</span>
@@ -2994,7 +3033,7 @@
         <!-- ============================================================
              PŘÍSPĚVEK: Nepal 2025 – Langtang & Gosaikunda
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="nepal2025">
           <div class="blog-img">
             <img src="langtang1.jpg" alt="Langtang Valley – Nepal 2025" loading="lazy" />
             <span class="blog-tag">Výpravy</span>
@@ -3060,13 +3099,15 @@
               Langtang a Gosaikunda nejsou Everest Base Camp ani Annapurna Circuit – a to je přesně jejich kouzlo. Méně turistů, autentičtější vesnice, stejně dechberoucí výhledy.
             </p>
             <p><strong>Jedeme zase? Jasně. 🏔️</strong></p>
+
+            <button class="like-btn" data-id="nepal2025"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
         <!-- ============================================================
              PŘÍSPĚVEK: Jizerská 50 – únor 2026
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="jizerska2026">
           <div class="blog-img">
             <img src="J502026.jpg" alt="SKK Čtyřkoly na Jizerské 50 – 2026" loading="lazy" />
             <span class="blog-tag">Závodní úspěchy</span>
@@ -3112,13 +3153,15 @@
               Díky za skvělou reprezentaci oddílu a těšíme se na další ročník. Možná nás příště pojede ještě víc.
             </p>
             <p><strong>SKK Čtyřkoly jede dál. 🎿</strong></p>
+
+            <button class="like-btn" data-id="jizerska2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
         <!-- ============================================================
              PŘÍSPĚVEK: K Jadranu na kole – srpen 2024
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="jadran2024">
           <div class="blog-img">
             <img src="kolanadhlavou.jpg" alt="K Jadranu na kole – SKK Čtyřkoly 2024" loading="lazy" />
             <span class="blog-tag">Výpravy</span>
@@ -3168,6 +3211,8 @@
             </div>
 
             <p><strong>Kam to bude příště? 🌊</strong></p>
+
+            <button class="like-btn" data-id="jadran2024"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
@@ -3175,7 +3220,7 @@
              PŘÍSPĚVEK: Matěj Beneš – Beskydská sedmička 2021
              Edituj text níže, foto je z externího URL
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="matej2021">
           <div class="blog-img">
             <img
               src="https://www.beskydskasedmicka.cz/wp-content/uploads/2021/08/KUB_2886-860x574.jpg"
@@ -3226,13 +3271,15 @@
             >
               Číst celý rozhovor →
             </a>
+
+            <button class="like-btn" data-id="matej2021"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
         <!-- ============================================================
              PŘÍSPĚVEK: Půlmaraton v Ústí nad Labem – září 2018
         ============================================================ -->
-        <article class="blog-card blog-featured fade-in">
+        <article class="blog-card blog-featured fade-in" data-id="pulmaraton2018">
           <div class="blog-img">
             <img src="img/Galerie/Běh/Půlmaratón%20Ústí/IMG_20180915_162914.jpg" alt="Půlmaraton Ústí nad Labem 2018" loading="lazy" />
             <span class="blog-tag">Závodní úspěchy</span>
@@ -3269,6 +3316,8 @@
               Sázavská parta ukázala, že pravidelný trénink se prostě vyplácí!
             </p>
             <p><strong>Bravo kluci. 🏃</strong></p>
+
+            <button class="like-btn" data-id="pulmaraton2018"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
           </div>
         </article>
 
@@ -3882,6 +3931,52 @@
 
     tickCountdown();
     setInterval(tickCountdown, 1000);
+
+    /* -------------------------------------------
+       BLOG LIKY – Google Apps Script backend
+    ------------------------------------------- */
+    (function() {
+      var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxHXsSA-QEIS09LWTfw7plLUFx98aMsbHLE3LAKqDKbN8QbNBqDfan-H4EE9CfHorqp/exec';
+
+      // Načti počty liků pro všechna tlačítka
+      document.querySelectorAll('.like-btn').forEach(function(btn) {
+        var id = btn.dataset.id;
+        // Nastav stav z localStorage
+        if (localStorage.getItem('liked_' + id)) {
+          btn.classList.add('liked');
+        }
+        // Načti aktuální počet z API
+        fetch(LIKES_URL + '?action=get&id=' + id)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            btn.querySelector('.like-count').textContent = data.likes || 0;
+          })
+          .catch(function() {});
+      });
+
+      // Klik na like
+      document.querySelectorAll('.like-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = btn.dataset.id;
+          var alreadyLiked = !!localStorage.getItem('liked_' + id);
+          if (alreadyLiked) return;
+
+          // Optimistická aktualizace UI
+          btn.classList.add('liked');
+          var countEl = btn.querySelector('.like-count');
+          countEl.textContent = parseInt(countEl.textContent || 0) + 1;
+          localStorage.setItem('liked_' + id, '1');
+
+          // Pošli like na server
+          fetch(LIKES_URL + '?action=like&id=' + id)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              countEl.textContent = data.likes || countEl.textContent;
+            })
+            .catch(function() {});
+        });
+      });
+    })();
 
   </script>
 </body>
