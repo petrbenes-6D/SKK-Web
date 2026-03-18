@@ -3933,43 +3933,50 @@
     setInterval(tickCountdown, 1000);
 
     /* -------------------------------------------
-       BLOG LIKY – Google Apps Script backend (JSONP get, fetch like)
+       BLOG LIKY – Google Apps Script backend
     ------------------------------------------- */
     (function() {
       var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxGyrzX3kK4tJ3l6nDwtitDunKDC7Q_uMPmeXa4ezEnqSwjjEuDWq8Wgr7VtOkXemo/exec';
 
-      function getLikes(blogId, elementId) {
-        var callbackName = 'cb_' + blogId;
-        window[callbackName] = function(count) {
-          document.getElementById(elementId).textContent = count;
-        };
-        var script = document.createElement('script');
-        script.src = LIKES_URL + '?action=get&id=' + blogId + '&callback=' + callbackName;
-        document.body.appendChild(script);
-      }
-
-      // Načti počty a nastav stav z localStorage
+      // Načti počty liků při startu přes JSONP
       document.querySelectorAll('.like-btn').forEach(function(btn) {
         var id = btn.dataset.id;
+
+        // Nastav stav z localStorage
         if (localStorage.getItem('liked_' + id)) {
           btn.classList.add('liked');
         }
-        getLikes(id, 'like-count-' + id);
+
+        // JSONP – callback aktualizuje číslo a data-count atribut
+        var cbName = 'cb_' + id;
+        window[cbName] = function(count) {
+          var n = parseInt(count) || 0;
+          var el = document.getElementById('like-count-' + id);
+          if (el) el.textContent = n;
+          btn.dataset.count = n;
+        };
+        var s = document.createElement('script');
+        s.src = LIKES_URL + '?action=get&id=' + id + '&callback=' + cbName;
+        document.head.appendChild(s);
       });
 
-      // Klik na like – odesílání přes fetch no-cors (odpověď nepotřebujeme)
+      // Klik na like
       document.querySelectorAll('.like-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var id = btn.dataset.id;
           if (localStorage.getItem('liked_' + id)) return;
 
-          // Optimistická aktualizace UI
+          // Přečti aktuální hodnotu z data-count, zobraz +1
+          var current = parseInt(btn.dataset.count || 0);
+          var next = current + 1;
+          btn.dataset.count = next;
+          var el = document.getElementById('like-count-' + id);
+          if (el) el.textContent = next;
+
           btn.classList.add('liked');
-          var countEl = document.getElementById('like-count-' + id);
-          countEl.textContent = parseInt(countEl.textContent || 0) + 1;
           localStorage.setItem('liked_' + id, '1');
 
-          // Pošli like přes fetch (mode: no-cors – jen zápis, čtení nepotřebujeme)
+          // Zápis na server přes no-cors fetch
           fetch(LIKES_URL + '?action=like&id=' + id, { mode: 'no-cors' }).catch(function() {});
         });
       });
