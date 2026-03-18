@@ -3935,10 +3935,11 @@
     /* -------------------------------------------
        BLOG LIKY – Google Apps Script backend
     ------------------------------------------- */
-    (function() {
-      var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxGyrzX3kK4tJ3l6nDwtitDunKDC7Q_uMPmeXa4ezEnqSwjjEuDWq8Wgr7VtOkXemo/exec';
+    var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxGyrzX3kK4tJ3l6nDwtitDunKDC7Q_uMPmeXa4ezEnqSwjjEuDWq8Wgr7VtOkXemo/exec';
 
-      // Načti počty liků při startu přes JSONP
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Načti počty liků přes JSONP – callback MUSÍ být definován před script tagem
       document.querySelectorAll('.like-btn').forEach(function(btn) {
         var id = btn.dataset.id;
 
@@ -3947,17 +3948,18 @@
           btn.classList.add('liked');
         }
 
-        // JSONP – callback aktualizuje číslo a data-count atribut
-        var cbName = 'cb_' + id;
-        window[cbName] = function(count) {
+        // 1. NEJDŘÍV definuj callback
+        window['cb_' + id] = function(count) {
           var n = parseInt(count) || 0;
           var el = document.getElementById('like-count-' + id);
           if (el) el.textContent = n;
           btn.dataset.count = n;
         };
+
+        // 2. PAK teprve přidej script tag
         var s = document.createElement('script');
-        s.src = LIKES_URL + '?action=get&id=' + id + '&callback=' + cbName;
-        document.head.appendChild(s);
+        s.src = LIKES_URL + '?action=get&id=' + id + '&callback=cb_' + id;
+        document.body.appendChild(s);
       });
 
       // Klik na like
@@ -3966,7 +3968,6 @@
           var id = btn.dataset.id;
           if (localStorage.getItem('liked_' + id)) return;
 
-          // Přečti aktuální hodnotu z data-count, zobraz +1
           var current = parseInt(btn.dataset.count || 0);
           var next = current + 1;
           btn.dataset.count = next;
@@ -3976,11 +3977,11 @@
           btn.classList.add('liked');
           localStorage.setItem('liked_' + id, '1');
 
-          // Zápis na server přes no-cors fetch
           fetch(LIKES_URL + '?action=like&id=' + id, { mode: 'no-cors' }).catch(function() {});
         });
       });
-    })();
+
+    });
 
   </script>
 </body>
