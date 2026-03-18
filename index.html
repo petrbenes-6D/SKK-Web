@@ -2938,7 +2938,7 @@
               Velké poděkování týmu SOSE (Sokol Senohraby), který nás tentokrát vzal pod svá křídla. Zejména díky nim jsme prožili nezapomenutelný týden. Zvláštní dík patří Honzovi a Lucce Šťastným — také ze Čtyřkol — bez nich by to nebylo ono. Díky, kamarádi!
             </p>
 
-            <button class="like-btn" data-id="birken2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="birken2026"><span class="like-heart">❤️</span><span class="like-count" id="like-count-birken2026">0</span></button>
           </div>
         </article>
 
@@ -2971,7 +2971,7 @@
               Pepa tentokrát startoval v barvách TT ASTRA Konopiště. Kdyby běžel pod SKK čtyřkolskou vlajkou, tak si možná celkově šáhnul na bednu. 😄
             </p>
 
-            <button class="like-btn" data-id="konopiste2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="konopiste2026"><span class="like-heart">❤️</span><span class="like-count" id="like-count-konopiste2026">0</span></button>
           </div>
         </article>
 
@@ -3100,7 +3100,7 @@
             </p>
             <p><strong>Jedeme zase? Jasně. 🏔️</strong></p>
 
-            <button class="like-btn" data-id="nepal2025"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="nepal2025"><span class="like-heart">❤️</span><span class="like-count" id="like-count-nepal2025">0</span></button>
           </div>
         </article>
 
@@ -3154,7 +3154,7 @@
             </p>
             <p><strong>SKK Čtyřkoly jede dál. 🎿</strong></p>
 
-            <button class="like-btn" data-id="jizerska2026"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="jizerska2026"><span class="like-heart">❤️</span><span class="like-count" id="like-count-jizerska2026">0</span></button>
           </div>
         </article>
 
@@ -3212,7 +3212,7 @@
 
             <p><strong>Kam to bude příště? 🌊</strong></p>
 
-            <button class="like-btn" data-id="jadran2024"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="jadran2024"><span class="like-heart">❤️</span><span class="like-count" id="like-count-jadran2024">0</span></button>
           </div>
         </article>
 
@@ -3272,7 +3272,7 @@
               Číst celý rozhovor →
             </a>
 
-            <button class="like-btn" data-id="matej2021"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="matej2021"><span class="like-heart">❤️</span><span class="like-count" id="like-count-matej2021">0</span></button>
           </div>
         </article>
 
@@ -3317,7 +3317,7 @@
             </p>
             <p><strong>Bravo kluci. 🏃</strong></p>
 
-            <button class="like-btn" data-id="pulmaraton2018"><span class="like-heart">❤️</span><span class="like-count">0</span></button>
+            <button class="like-btn" data-id="pulmaraton2018"><span class="like-heart">❤️</span><span class="like-count" id="like-count-pulmaraton2018">0</span></button>
           </div>
         </article>
 
@@ -3933,48 +3933,31 @@
     setInterval(tickCountdown, 1000);
 
     /* -------------------------------------------
-       BLOG LIKY – Google Apps Script backend (JSONP)
+       BLOG LIKY – Google Apps Script backend (JSONP get, fetch like)
     ------------------------------------------- */
     (function() {
-      var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxHc6g28SqEovp92ZpXXn7trjW_M37tdnk5b_kiRg08_rhxS5gBepBq9MI0ynxABhzw/exec';
+      var LIKES_URL = 'https://script.google.com/macros/s/AKfycbxGyrzX3kK4tJ3l6nDwtitDunKDC7Q_uMPmeXa4ezEnqSwjjEuDWq8Wgr7VtOkXemo/exec';
 
-      function getLikes(blogId, callback) {
-        var script = document.createElement('script');
-        window['cb_' + blogId] = function(data) {
-          callback(data);
-          script.remove();
-          delete window['cb_' + blogId];
+      function getLikes(blogId, elementId) {
+        var callbackName = 'cb_' + blogId;
+        window[callbackName] = function(count) {
+          document.getElementById(elementId).textContent = count;
         };
-        script.src = LIKES_URL + '?action=get&id=' + blogId + '&callback=cb_' + blogId;
+        var script = document.createElement('script');
+        script.src = LIKES_URL + '?action=get&id=' + blogId + '&callback=' + callbackName;
         document.body.appendChild(script);
       }
 
-      function sendLike(blogId, callback) {
-        var script = document.createElement('script');
-        var cbName = 'cblike_' + blogId + '_' + Date.now();
-        window[cbName] = function(data) {
-          callback(data);
-          script.remove();
-          delete window[cbName];
-        };
-        script.src = LIKES_URL + '?action=like&id=' + blogId + '&callback=' + cbName;
-        document.body.appendChild(script);
-      }
-
-      // Načti počty liků pro všechna tlačítka
+      // Načti počty a nastav stav z localStorage
       document.querySelectorAll('.like-btn').forEach(function(btn) {
         var id = btn.dataset.id;
-        // Nastav stav z localStorage
         if (localStorage.getItem('liked_' + id)) {
           btn.classList.add('liked');
         }
-        // Načti aktuální počet přes JSONP
-        getLikes(id, function(data) {
-          btn.querySelector('.like-count').textContent = data.likes || 0;
-        });
+        getLikes(id, 'like-count-' + id);
       });
 
-      // Klik na like
+      // Klik na like – odesílání přes fetch no-cors (odpověď nepotřebujeme)
       document.querySelectorAll('.like-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var id = btn.dataset.id;
@@ -3982,14 +3965,12 @@
 
           // Optimistická aktualizace UI
           btn.classList.add('liked');
-          var countEl = btn.querySelector('.like-count');
+          var countEl = document.getElementById('like-count-' + id);
           countEl.textContent = parseInt(countEl.textContent || 0) + 1;
           localStorage.setItem('liked_' + id, '1');
 
-          // Pošli like přes JSONP
-          sendLike(id, function(data) {
-            if (data && data.likes) countEl.textContent = data.likes;
-          });
+          // Pošli like přes fetch (mode: no-cors – jen zápis, čtení nepotřebujeme)
+          fetch(LIKES_URL + '?action=like&id=' + id, { mode: 'no-cors' }).catch(function() {});
         });
       });
     })();
