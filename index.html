@@ -2925,7 +2925,7 @@
         </div>
       </div> -->
 
-      <!-- ===== ČTYŘKOLSKÝ PAPÍRÁK 2026 – hlavní akce ===== -->
+      <!-- ===== ČTYŘKOLSKÝ PAPÍRÁK 2027 – hlavní akce ===== -->
       <!-- EDITUJ DATUM ZÁVODU v JS sekci níže: const PAPIRAK_DATE -->
       <div class="papírak-section fade-in">
         <div class="papírak-inner">
@@ -2938,12 +2938,16 @@
 
           <!-- Obsah vpravo -->
           <div class="papírak-body">
-            <div class="papírak-badge">🏆 Vlajková akce klubu</div>
+            <div class="papírak-badge">🏆 30. jubilejní ročník</div>
 
             <!-- EDITUJ NADPIS, DATUM, MÍSTO ZDE -->
-            <h3 class="papírak-title">Čtyřkolský Papírák 2026</h3>
+            <h3 class="papírak-title">Čtyřkolský Papírák 2027</h3>
             <p class="papírak-subtitle">Triatlon u jezu ve Lštění</p>
-            <p class="papírak-date">📅 Sobota 27. 6. 2026</p>
+            <p class="papírak-date">📅 Sobota 19. 6. 2027</p>
+
+            <p style="color:rgba(255,255,255,0.85); font-size:0.97rem; margin-bottom:16px;">
+              ✅ Ročník 2026 s rekordní účastí 43 závodníků je úspěšně za námi. Už teď odpočítáváme do jubilejního 30. ročníku!
+            </p>
 
             <!-- EDITUJ POŘADATELE ZDE -->
             <p class="papírak-organizers">
@@ -4201,10 +4205,10 @@
     });
 
     /* -------------------------------------------
-       COUNTDOWN – Čtyřkolský Papírák 2026
+       COUNTDOWN – Čtyřkolský Papírák 2027
        EDITUJ DATUM ZDE (rok, měsíc-1, den, hodina startu)
     ------------------------------------------- */
-    const PAPIRAK_DATE = new Date(2026, 5, 27, 10, 30, 0); // 27.6.2026 10:30
+    const PAPIRAK_DATE = new Date(2027, 5, 19, 10, 30, 0); // 19.6.2027 10:30
 
     const cdDays  = document.getElementById('cdDays');
     const cdHours = document.getElementById('cdHours');
@@ -4219,7 +4223,7 @@
       const diff = PAPIRAK_DATE - now;
 
       if (diff <= 0) {
-        cdWrap.innerHTML = '<div class="countdown-done">🎉 Závod právě probíhá – nebo už proběhl. Výsledky brzy!</div>';
+        cdWrap.innerHTML = '<div class="countdown-done">🎉 Jubilejní 30. ročník právě probíhá – nebo už proběhl. Výsledky brzy!</div>';
         return;
       }
 
