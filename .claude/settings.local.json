@@ -16,7 +16,9 @@
       "Bash(command -v convert)",
       "Bash(command -v ffmpeg)",
       "Bash(cd img *)",
-      "Bash(cd *)"
+      "Bash(cd *)",
+      "Bash(node *)",
+      "Bash(xxd)"
     ]
   }
 }
