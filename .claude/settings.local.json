@@ -8,7 +8,15 @@
       "Bash(ls:*)",
       "Bash(cp:*)",
       "Bash(cd:*)",
-      "WebFetch(domain:skk4koly.club)"
+      "WebFetch(domain:skk4koly.club)",
+      "Bash(gh api *)",
+      "PowerShell(gh api *)",
+      "Bash(file vyzlovka1.heic)",
+      "Bash(command -v magick)",
+      "Bash(command -v convert)",
+      "Bash(command -v ffmpeg)",
+      "Bash(cd img *)",
+      "Bash(cd *)"
     ]
   }
 }
